@@ -1,6 +1,19 @@
 [package]
 name = "consistent_whitespace"
 version = "0.0.1"
+description = "A utility to check each file starts with the same whitespace."
+authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
+license = "AGPL-3.0"
+repository = "https://gitlab.com/DeveloperC/consistent_whitespace"
+readme = "README.md"
+keywords = ["formatting", "format", "lint", "linting", "whitespace"]
+categories = ["command-line-utilities", "development-tools", "data-structures", "encoding", "parser-implementations"]
+
 
 [dependencies]
+
+
+[profile.release]
+lto = 'fat'
+codegen-units = 1
