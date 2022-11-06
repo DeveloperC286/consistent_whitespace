@@ -1,6 +1,7 @@
 stages:
   - clean-git-history-checking
   - conventional-commits-linting
+  - conventional-commits-next-version-checking
   - formatting
   - linting
   - compiling
@@ -31,6 +32,22 @@ conventional-commits-linting:
   script:
     # Lint all the commits in the branch.
     - /usr/local/cargo/bin/conventional_commits_linter --from-reference "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" --allow-angular-type-only
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+
+
+conventional-commits-next-version-checking:
+  stage: conventional-commits-next-version-checking
+  image: rust
+  before_script:
+    - cargo install conventional_commits_next_version
+  script:
+    # Get current version.
+    - current_version=$(grep "^version = \"${SEMANTIC_VERSIONING_REGEX}\"$" "Cargo.toml" | cut -d '"' -f 2)
+    # Get latest tag.
+    - latest_tag=$(git tag --sort=committerdate | tail -1)
+    # Check current vs expected.
+    - /usr/local/cargo/bin/conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
   rules:
     - if: $CI_MERGE_REQUEST_ID
 
