@@ -3,6 +3,8 @@ extern crate log;
 extern crate pretty_env_logger;
 use thiserror::Error;
 
+mod model;
+
 #[derive(Error, Debug)]
 enum ConsistentWhitespaceError {
     #[error("The current working directory's can not be expressed as a String.")]
@@ -16,7 +18,9 @@ fn main() {
     trace!("Version {}.", env!("CARGO_PKG_VERSION"));
 
     match get_current_working_directory() {
-        Ok(current_working_directory) => {}
+        Ok(current_working_directory) => {
+            let raw_files = crate::model::raw_file::get_raw_files(&current_working_directory);
+        }
         Err(error) => {
             error!("Unable to get the current working directory, got the error {error:?}.");
             std::process::exit(ERROR_EXIT_CODE);
