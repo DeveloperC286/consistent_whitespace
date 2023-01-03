@@ -3,6 +3,7 @@ extern crate log;
 extern crate pretty_env_logger;
 use thiserror::Error;
 
+mod consistent_whitespace_checker;
 mod model;
 
 #[derive(Error, Debug)]
@@ -19,10 +20,20 @@ fn main() {
 
     match get_current_working_directory() {
         Ok(current_working_directory) => {
-            let raw_files = crate::model::raw_file::get_raw_files(&current_working_directory);
+            match crate::model::raw_file::get_raw_files(&current_working_directory) {
+                Ok(raw_files) => {
+                    if crate::consistent_whitespace_checker::does_all_files_have_consistent_whitespace(raw_files) {
+std::process::exit(ERROR_EXIT_CODE);
+                    }
+                }
+                Err(error) => {
+                    error!("{error:?}");
+                    std::process::exit(ERROR_EXIT_CODE);
+                }
+            }
         }
         Err(error) => {
-            error!("Unable to get the current working directory, got the error {error:?}.");
+            error!("{error:?}");
             std::process::exit(ERROR_EXIT_CODE);
         }
     }
