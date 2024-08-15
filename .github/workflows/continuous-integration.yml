@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: [rust, shell, yaml]
+        language: [rust, python, shell, yaml]
     steps:
       - name: Download Earthly v0.8.12.
         run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.8.12/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
@@ -53,3 +53,13 @@ jobs:
         uses: actions/checkout@v3
       - name: Unit test.
         run: earthly --ci +unit-test
+  end-to-end-test:
+    name: End to End Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Earthly v0.8.12.
+        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.8.12/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+      - name: Checkout code.
+        uses: actions/checkout@v3
+      - name: End to End test.
+        run: earthly --ci +end-to-end-test
