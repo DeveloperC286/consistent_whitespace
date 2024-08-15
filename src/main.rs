@@ -22,7 +22,7 @@ fn main() {
         Ok(current_working_directory) => {
             match crate::model::raw_file::get_raw_files(&current_working_directory) {
                 Ok(raw_files) => {
-                    if crate::consistent_whitespace_checker::does_all_files_have_consistent_whitespace(raw_files) {
+                    if !crate::consistent_whitespace_checker::does_all_files_have_consistent_whitespace(raw_files) {
 std::process::exit(ERROR_EXIT_CODE);
                     }
                 }

@@ -49,6 +49,28 @@ check-rust-formatting:
     RUN ./ci/check-rust-formatting.sh
 
 
+COPY_END_TO_END_TESTS:
+    COMMAND
+    DO +COPY_CI_DATA
+    COPY --dir "end-to-end-tests/" "./"
+
+
+python-base:
+    FROM python:3-slim
+    WORKDIR "/consistent_whitespace"
+    DO +COPY_END_TO_END_TESTS
+
+
+python-formatting-base:
+    FROM +python-base
+    RUN pip3 install -r "end-to-end-tests/autopep8.requirements.txt"
+
+
+check-python-formatting:
+    FROM +python-formatting-base
+    RUN ./ci/check-python-formatting.sh
+
+
 golang-base:
     FROM golang:1.22.1
 
@@ -78,6 +100,7 @@ check-yaml-formatting:
 
 check-formatting:
     BUILD +check-rust-formatting
+    BUILD +check-python-formatting
     BUILD +check-shell-formatting
     BUILD +check-yaml-formatting
 
@@ -86,6 +109,12 @@ fix-rust-formatting:
     FROM +rust-formatting-base
     RUN ./ci/fix-rust-formatting.sh
     SAVE ARTIFACT "src/" AS LOCAL "./"
+
+
+fix-python-formatting:
+    FROM +python-formatting-base
+    RUN ./ci/fix-python-formatting.sh
+    SAVE ARTIFACT "end-to-end-tests/" AS LOCAL "./"
 
 
 fix-shell-formatting:
@@ -102,13 +131,14 @@ fix-yaml-formatting:
 
 fix-formatting:
     BUILD +fix-rust-formatting
+    BUILD +fix-python-formatting
     BUILD +fix-shell-formatting
     BUILD +fix-yaml-formatting
 
 
 check-rust-linting:
     FROM +rust-base
-	RUN rustup component add clippy
+    RUN rustup component add clippy
     DO +COPY_SOURCECODE
     RUN ./ci/check-rust-linting.sh
 
@@ -151,3 +181,10 @@ unit-test:
     FROM +rust-base
     DO +COPY_SOURCECODE
     RUN ./ci/unit-test.sh
+
+
+end-to-end-test:
+    FROM +python-base
+    RUN pip3 install -r "end-to-end-tests/requirements.txt"
+    COPY "+compile/target/" "target/"
+    RUN ./ci/end-to-end-test.sh
