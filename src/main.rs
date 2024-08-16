@@ -1,16 +1,12 @@
 #[macro_use]
 extern crate log;
 extern crate pretty_env_logger;
-use thiserror::Error;
 
-mod consistent_whitespace_checker;
-mod model;
+use anyhow::{anyhow, Result};
 
-#[derive(Error, Debug)]
-enum ConsistentWhitespaceError {
-    #[error("The current working directory's can not be expressed as a String.")]
-    NoWorkingDirectoryString,
-}
+mod evaluator;
+mod lexical_analysis;
+mod raw_file;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -18,32 +14,18 @@ fn main() {
     pretty_env_logger::init();
     trace!("Version {}.", env!("CARGO_PKG_VERSION"));
 
-    match get_current_working_directory() {
-        Ok(current_working_directory) => {
-            match crate::model::raw_file::get_raw_files(&current_working_directory) {
-                Ok(raw_files) => {
-                    if !crate::consistent_whitespace_checker::does_all_files_have_consistent_whitespace(raw_files) {
-std::process::exit(ERROR_EXIT_CODE);
-                    }
-                }
-                Err(error) => {
-                    error!("{error:?}");
-                    std::process::exit(ERROR_EXIT_CODE);
-                }
-            }
-        }
-        Err(error) => {
-            error!("{error:?}");
-            std::process::exit(ERROR_EXIT_CODE);
-        }
+    if let Err(err) = run() {
+        error!("{:?}", err);
+        std::process::exit(ERROR_EXIT_CODE);
     }
 }
 
-fn get_current_working_directory() -> Result<String, Box<dyn std::error::Error>> {
-    match std::env::current_dir()?.to_str() {
-        Some(current_working_directory) => Ok(current_working_directory.to_string()),
-        None => Err(Box::new(
-            ConsistentWhitespaceError::NoWorkingDirectoryString,
-        )),
+fn run() -> Result<()> {
+    let path = std::env::current_dir()?;
+    let raw_files = raw_file::get_raw_files_in_directory(path)?;
+    let files = lexical_analysis::parse(raw_files);
+    match evaluator::evaluate(files) {
+        evaluator::State::Consistent => Ok(()),
+        evaluator::State::Inconsistent => Err(anyhow!("A file has inconsistent whitespace.")),
     }
 }
