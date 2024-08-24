@@ -4,13 +4,11 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Result;
 
-pub type Filename = String;
 pub type RawLine = String;
 pub type RawLines = Vec<RawLine>;
 pub type RawFiles = Vec<RawFile>;
 
 pub struct RawFile {
-    pub filename: Filename,
     pub lines: RawLines,
 }
 
@@ -40,10 +38,7 @@ fn get_raw_file(path: &Path) -> Result<RawFile> {
         lines.push(line.to_string());
     }
 
-    Ok(RawFile {
-        filename: path.to_str().unwrap().to_string(),
-        lines,
-    })
+    Ok(RawFile { lines })
 }
 
 fn read_lines<P>(path: P) -> io::Result<io::Lines<io::BufReader<File>>>
