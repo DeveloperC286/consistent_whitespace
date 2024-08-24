@@ -1,6 +1,6 @@
 [package]
 name = "consistent_whitespace"
-version = "0.1.0"
+version = "0.2.0"
 description = "A utility to check each file starts with the same whitespace."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
