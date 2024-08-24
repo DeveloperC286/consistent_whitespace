@@ -15,6 +15,7 @@ COPY_METADATA:
 rust-base:
     FROM rust:1.70.0-alpine3.18
     RUN apk add --no-cache musl-dev bash
+    WORKDIR "/consistent_whitespace"
 
 
 check-clean-git-history:
@@ -74,6 +75,7 @@ check-python-formatting:
 
 golang-base:
     FROM golang:1.22.1
+    WORKDIR "/consistent_whitespace"
 
 
 shell-formatting-base:
