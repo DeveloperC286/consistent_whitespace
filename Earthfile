@@ -193,6 +193,7 @@ end-to-end-test:
 
 release-artifacts:
     FROM +rust-base
+    RUN ./ci/install-github-cli.sh
     DO +COPY_SOURCECODE
     ARG release
     RUN --secret GH_TOKEN ./ci/release-artifacts.sh --release "${release}"
