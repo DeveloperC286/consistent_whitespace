@@ -13,7 +13,8 @@ COPY_METADATA:
 
 
 rust-base:
-    FROM rust:1.70.0
+    FROM rust:1.70.0-alpine3.18
+    RUN apk add --no-cache musl-dev bash
 
 
 check-clean-git-history:
@@ -188,3 +189,10 @@ end-to-end-test:
     RUN pip3 install -r "end-to-end-tests/requirements.txt"
     COPY "+compile/target/" "target/"
     RUN ./ci/end-to-end-test.sh
+
+
+release-artifacts:
+    FROM +rust-base
+    DO +COPY_SOURCECODE
+    ARG release
+    RUN --secret GH_TOKEN ./ci/release-artifacts.sh --release "${release}"
