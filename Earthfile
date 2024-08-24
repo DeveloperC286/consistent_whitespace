@@ -207,5 +207,6 @@ release-artifacts:
 
 publish:
     FROM +rust-base
+    COPY "README.md" "./"
     DO +COPY_SOURCECODE
     RUN --secret CARGO_REGISTRY_TOKEN ./ci/publish.sh
