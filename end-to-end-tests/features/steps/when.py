@@ -15,7 +15,13 @@ def two_space_indeted_file_copied(context):
                  "/examples/tab-indented.txt", context.execution_directory)
 
 
-@when('a mix indented file is copied into the directory.')
+@when('a mixed within line indented file is copied into the directory.')
 def two_space_indeted_file_copied(context):
     shutil.copy2(context.behave_directory +
-                 "/examples/mix-indented.txt", context.execution_directory)
+                 "/examples/mixed-within-line-indented.txt", context.execution_directory)
+
+
+@when('a mixed across lines indented file is copied into the directory.')
+def two_space_indeted_file_copied(context):
+    shutil.copy2(context.behave_directory +
+                 "/examples/mixed-across-lines-indented.txt", context.execution_directory)
