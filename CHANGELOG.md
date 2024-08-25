@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 (2024-08-25)
+
+## What's Changed
+* ci: crates.io publishing needs README.md by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/32
+* refactor: removing unused filename by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/35
+* refactor: removing buffered reader by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/36
+* feat: comparing across lines by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/34
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/consistent_whitespace-v0.2.0...consistent_whitespace-v0.3.0
+
 ## 0.2.0 (2024-08-24)
 
 ## What's Changed
