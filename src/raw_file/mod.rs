@@ -1,5 +1,3 @@
-use std::fs::File;
-use std::io::{self, BufRead};
 use std::path::{Path, PathBuf};
 
 use anyhow::Result;
@@ -31,20 +29,9 @@ pub fn get_raw_files_in_directory(directory: PathBuf) -> Result<RawFiles> {
 }
 
 fn get_raw_file(path: &Path) -> Result<RawFile> {
-    let buffered_lines = read_lines(path)?;
-    let mut lines = vec![];
-
-    for line in buffered_lines.flatten() {
-        lines.push(line.to_string());
-    }
-
+    let lines = std::fs::read_to_string(path)?
+        .lines()
+        .map(String::from)
+        .collect();
     Ok(RawFile { lines })
-}
-
-fn read_lines<P>(path: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(path)?;
-    Ok(io::BufReader::new(file).lines())
 }
