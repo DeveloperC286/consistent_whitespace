@@ -2,6 +2,7 @@
   "changelog-type": "github",
   "release-type": "rust",
   "pull-request-title-pattern": "chore: release ${version}",
+  "include-component-in-tag": false,
   "packages": {
     ".": {}
   }
