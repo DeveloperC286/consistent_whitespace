@@ -1,12 +1,12 @@
 name: Continuous Delivery (CD)
 
-# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
-permissions:
-  contents: write
-
 on:
   release:
     types: [published]
+
+# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+permissions:
+  contents: write
 
 env:
   # Forcing Earthly to use colours, to make reading output easier.
