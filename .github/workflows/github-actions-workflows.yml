@@ -2,10 +2,6 @@ name: GitHub Actions Workflows
 
 on: pull_request
 
-env:
-  # Forcing Earthly to use colours, to make reading output easier.
-  FORCE_COLOR: 1
-
 jobs:
   linting:
     name: Linting

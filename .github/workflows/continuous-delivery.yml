@@ -8,10 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  # Forcing Earthly to use colours, to make reading output easier.
-  FORCE_COLOR: 1
-
 jobs:
   release-artifacts:
     name: Release artifacts.
