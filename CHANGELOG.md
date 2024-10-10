@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.3.1 (2024-10-10)
+
+## What's Changed
+* build: removing .goreleaser.yaml reference by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/37
+* ci: moving GitHub Actions workflow formatting check by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/39
+* docs: updating repository link to GitHub by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/40
+* ci: removing component name from tag by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/41
+* ci: replacing deprecated release-please GitHub Action by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/42
+* chore: Configure Renovate by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/43
+* chore(deps): update actions/checkout action to v4 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/48
+* ci: organising on section first by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/49
+* ci: converting to earthly/actions-setup@v1 by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/50
+* chore(deps): update dependency parse-type to v0.6.4 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/44
+* build: autopep8 upgrade by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/54
+* docs: removing Continuous Integration (CI) badge by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/55
+
+## New Contributors
+* @renovate made their first contribution in https://github.com/DeveloperC286/consistent_whitespace/pull/43
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.3.0...v0.3.1
+
 ## 0.3.0 (2024-08-25)
 
 ## What's Changed
