@@ -1,7 +1,7 @@
 [package]
 name = "consistent_whitespace"
 version = "0.3.0"
-description = "A utility to check each file starts with the same whitespace."
+description = "A utility that checks for consistent whitespace across your file(s)."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
 license = "AGPL-3.0"
