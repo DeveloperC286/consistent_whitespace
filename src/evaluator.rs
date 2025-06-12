@@ -8,17 +8,19 @@ pub enum State {
 
 pub fn evaluate(files: Files) -> State {
     for file in files {
-        let state = evaluate_file(file);
+        let state = evaluate_file(&file);
 
         if state == State::Inconsistent {
+            warn!("File {} is inconsistent.", file.path.display());
             return State::Inconsistent;
         }
     }
 
     State::Consistent
 }
-pub fn evaluate_file(file: File) -> State {
-    let formats: Vec<Format> = file.lines.into_iter().map(evaluate_line).collect();
+
+pub fn evaluate_file(file: &File) -> State {
+    let formats: Vec<Format> = file.lines.iter().map(evaluate_line).collect();
     let spaces = formats.iter().filter(|&e| *e == Format::Spaces).count();
     let tabs = formats.iter().filter(|&e| *e == Format::Tabs).count();
     let mixed = formats.iter().filter(|&e| *e == Format::Mixed).count();
@@ -39,7 +41,7 @@ pub enum Format {
     Mixed,
 }
 
-pub fn evaluate_line(line: Line) -> Format {
+pub fn evaluate_line(line: &Line) -> Format {
     let spaces = line.iter().filter(|&e| *e == Token::Space).count();
     let tabs = line.iter().filter(|&e| *e == Token::Tab).count();
 

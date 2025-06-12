@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use anyhow::Result;
 use ignore::Walk;
@@ -8,6 +8,7 @@ pub type RawLines = Vec<RawLine>;
 pub type RawFiles = Vec<RawFile>;
 
 pub struct RawFile {
+    pub path: PathBuf,
     pub lines: RawLines,
 }
 
@@ -36,5 +37,8 @@ fn get_raw_file(path: &Path) -> Result<RawFile> {
         .lines()
         .map(String::from)
         .collect();
-    Ok(RawFile { lines })
+    Ok(RawFile {
+        path: path.to_path_buf(),
+        lines,
+    })
 }
