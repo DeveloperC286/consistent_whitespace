@@ -27,11 +27,17 @@ SHFMT_VERSION=v3.11.0-alpine@sha256:394d755b6007056a2e6d7537ccdbdcfca01b9855ba91
 
 check-shell-formatting:
 	docker pull mvdan/shfmt:$(SHFMT_VERSION)
-	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:$(SHFMT_VERSION) --simplify --diff ci/* 
+	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:$(SHFMT_VERSION) --simplify --diff ci/*
 
 check-python-formatting:
 	docker build -t check-python-formatting -f ci/check-python-formatting.Dockerfile .
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-python-formatting
+
+# renovate: depName=ghcr.io/developerc286/consistent_whitespace
+CONSISTENT_WHITESPACE_VERSION=0.6.0@sha256:b254ce59fc89cf0369aba7431da02393c04bd1fe4ede2bfdc8bef55cdafb0008
+
+check-consistent-whitespace:
+	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) ghcr.io/developerc286/consistent_whitespace:$(CONSISTENT_WHITESPACE_VERSION) src/ ci/ .github/ end-to-end-tests/
 
 # renovate: depName=ghcr.io/google/yamlfmt
 YAMLFMT_VERSION=0.17.2@sha256:fa6874890092db69f35ece6a50e574522cae2a59b6148a1f6ac6d510e5bcf3cc
@@ -46,7 +52,7 @@ fix-rust-formatting:
 
 fix-shell-formatting:
 	docker pull mvdan/shfmt:$(SHFMT_VERSION)
-	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:$(SHFMT_VERSION) --simplify --write ci/* 
+	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:$(SHFMT_VERSION) --simplify --write ci/*
 
 fix-python-formatting:
 	docker build -t fix-python-formatting -f ci/fix-python-formatting.Dockerfile .
