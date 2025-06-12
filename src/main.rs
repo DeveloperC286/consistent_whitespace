@@ -22,6 +22,14 @@ pub enum WhitespacePreference {
     Either,
 }
 
+#[derive(Debug, Clone, clap::ValueEnum)]
+pub enum ConsistencyMode {
+    /// Check consistency within each individual file (legacy behavior).
+    WithinFiles,
+    /// Check consistency across all files (default behavior).
+    AcrossFiles,
+}
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Arguments {
@@ -32,6 +40,10 @@ struct Arguments {
     /// The only whitespacing that can be used. If not specified, either tabs or spaces are acceptable as long as they are consistent.
     #[arg(long, value_enum, default_value = "either")]
     whitespace: WhitespacePreference,
+
+    /// The mode for checking whitespace consistency.
+    #[arg(long, value_enum, default_value = "across-files")]
+    mode: ConsistencyMode,
 
     #[arg(
         long,
@@ -67,8 +79,8 @@ fn main() {
 fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
-    if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace) {
-        reporter::report(&errors);
+    if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace, &arguments.mode) {
+        reporter::report(&errors, &arguments.mode);
         Ok(1)
     } else {
         Ok(0)
