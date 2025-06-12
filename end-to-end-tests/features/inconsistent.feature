@@ -11,3 +11,10 @@ Feature: Ensure unsuccessful execution for inconsistent files.
     Given an empty directory.
     When a mixed across lines indented file is copied into the directory.
     Then all files are inconsistent.
+
+
+  Scenario:
+    Given an empty directory.
+    When a two space indented file is copied into the directory.
+    When a tab indented file is copied into the directory.
+    Then all files are inconsistent.
