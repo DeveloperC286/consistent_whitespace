@@ -29,7 +29,7 @@ fn main() {
 
 fn run() -> Result<()> {
     let path = std::env::current_dir()?;
-    let raw_files = raw_file::get_raw_files_in_directory(path)?;
+    let raw_files = raw_file::get_raw_files_in_directory(&path)?;
     let files = lexical_analysis::parse(raw_files);
     match evaluator::evaluate(files) {
         evaluator::State::Consistent => Ok(()),
