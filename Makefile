@@ -24,6 +24,10 @@ check-python-formatting:
 	docker build -t check-python-formatting -f ci/check-python-formatting.Dockerfile .
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-python-formatting
 
+check-consistent-whitespace-formatting:
+	docker build -t check-consistent-whitespace-formatting -f ci/check-consistent-whitespace-formatting.Dockerfile .
+	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-consistent-whitespace-formatting
+
 check-yaml-formatting:
 	docker pull ghcr.io/google/yamlfmt:0.17.0
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) ghcr.io/google/yamlfmt:0.17.0 -verbose -lint -dstar .github/workflows/*
