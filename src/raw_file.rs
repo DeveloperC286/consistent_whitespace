@@ -12,7 +12,19 @@ pub struct RawFile {
     pub lines: RawLines,
 }
 
-pub fn get_raw_files_in_directory(directory: &Path) -> Result<RawFiles> {
+pub fn get_raw_files(paths: &[PathBuf]) -> Result<RawFiles> {
+    let mut files = Vec::new();
+    for path in paths {
+        if path.is_file() {
+            files.push(get_raw_file(path)?);
+        } else {
+            files.extend(get_raw_files_in_directory(path)?);
+        }
+    }
+    Ok(files)
+}
+
+fn get_raw_files_in_directory(directory: &Path) -> Result<RawFiles> {
     let mut files = Vec::new();
 
     for entry in Walk::new(directory) {
