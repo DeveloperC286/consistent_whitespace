@@ -1,14 +1,18 @@
 use std::path::PathBuf;
 
-use crate::raw_file::RawFiles;
+use crate::raw_file::{RawFiles, RawLine};
 
-pub type Line = Vec<Token>;
 pub type Lines = Vec<Line>;
 pub type Files = Vec<File>;
 
 pub struct File {
     pub path: PathBuf,
     pub lines: Lines,
+}
+
+pub struct Line {
+    pub tokens: Vec<Token>,
+    pub line_number: usize,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -27,16 +31,16 @@ pub fn parse(raw_files: RawFiles) -> Files {
         .collect()
 }
 
-fn parse_line(raw_line: String) -> Line {
-    let mut line = vec![];
+fn parse_line(raw_line: RawLine) -> Line {
+    let mut tokens = vec![];
 
-    for character in raw_line.chars() {
+    for character in raw_line.line.chars() {
         match character {
             ' ' => {
-                line.push(Token::Space);
+                tokens.push(Token::Space);
             }
             '\t' => {
-                line.push(Token::Tab);
+                tokens.push(Token::Tab);
             }
             _ => {
                 break;
@@ -44,5 +48,8 @@ fn parse_line(raw_line: String) -> Line {
         }
     }
 
-    line
+    Line {
+        tokens,
+        line_number: raw_line.line_number,
+    }
 }

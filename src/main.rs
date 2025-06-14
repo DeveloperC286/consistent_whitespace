@@ -2,12 +2,13 @@
 extern crate log;
 extern crate pretty_env_logger;
 
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use clap::Parser;
 
 mod evaluator;
 mod lexical_analysis;
 mod raw_file;
+mod reporter;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -25,17 +26,24 @@ fn main() {
     let arguments = Arguments::parse();
     debug!("The command line arguments provided are {:?}.", arguments);
 
-    if let Err(err) = run(arguments) {
-        error!("{:?}", err);
-        std::process::exit(ERROR_EXIT_CODE);
+    match run(arguments) {
+        Ok(exit_code) => {
+            std::process::exit(exit_code);
+        }
+        Err(err) => {
+            error!("{:?}", err);
+            std::process::exit(ERROR_EXIT_CODE);
+        }
     }
 }
 
-fn run(arguments: Arguments) -> Result<()> {
+fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
-    match evaluator::evaluate(files) {
-        evaluator::State::Consistent => Ok(()),
-        evaluator::State::Inconsistent => Err(anyhow!("A file has inconsistent whitespace.")),
+    if let Some(errors) = evaluator::evaluate(files) {
+        reporter::report(&errors);
+        Ok(1)
+    } else {
+        Ok(0)
     }
 }
