@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use ignore::Walk;
 
 pub type RawLine = String;
@@ -33,7 +33,8 @@ pub fn get_raw_files_in_directory(directory: &Path) -> Result<RawFiles> {
 
 fn get_raw_file(path: &Path) -> Result<RawFile> {
     trace!("Reading in the file {}.", path.display());
-    let lines = std::fs::read_to_string(path)?
+    let lines = std::fs::read_to_string(path)
+        .context(format!("Failed to read the file {}", path.display()))?
         .lines()
         .map(String::from)
         .collect();

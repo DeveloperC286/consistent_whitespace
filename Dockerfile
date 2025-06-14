@@ -5,4 +5,6 @@ RUN apk add --no-cache \
 
 COPY ./target/x86_64-unknown-linux-musl/release/consistent_whitespace /usr/local/bin/
 
+WORKDIR /workspace
+
 ENTRYPOINT ["consistent_whitespace"]
