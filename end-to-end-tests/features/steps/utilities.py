@@ -23,6 +23,6 @@ def execute_command(command):
 
 def execute_consistent_whitespace(context):
     os.chdir(context.execution_directory)
-    result = execute_command(context.consistent_whitespace_path)
+    result = execute_command(context.consistent_whitespace_path + " " + context.arguments)
     os.chdir(context.behave_directory)
     return result

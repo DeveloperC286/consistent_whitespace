@@ -25,3 +25,8 @@ def two_space_indeted_file_copied(context):
 def two_space_indeted_file_copied(context):
     shutil.copy2(context.behave_directory +
                  "/examples/mixed-across-lines-indented.txt", context.execution_directory)
+
+
+@when('the path "two-space-indented.txt" is provided.')
+def two_space_indented_path_provided(context):
+    context.arguments = " two-spaces-indented.txt "
