@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.5.0 (2025-06-14)
+
+## What's Changed
+* ci: fixing binary publishing script by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/186
+* feat: adding gitignore support by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/188
+* feat: warning about inconsistent file by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/189
+* chore(deps): update python docker tag to v3.13.5 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/191
+* chore(deps): update python:3.13.5-alpine3.21 docker digest to c9a09c4 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/192
+* Ci adding docker image publishing by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/195
+* chore(deps): pin dependencies by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/196
+* ci: fixing Docker publishing workflow by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/197
+* ci: adding current codebase dogfooding by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/198
+* feat: pass path(s) via CLI by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/199
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.4.0...v0.5.0
+
 ## 0.4.0 (2025-06-12)
 
 ## What's Changed
