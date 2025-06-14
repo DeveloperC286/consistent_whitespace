@@ -81,5 +81,4 @@ check-dockerfile: release
 	docker run --rm consistent-whitespace --help
 
 publish-docker: release
-	docker build -t ghcr.io/consistent-whitespace:${RELEASE} -f Dockerfile .
-	docker push ghcr.io/consistent-whitespace:${RELEASE}
+	./ci/publish-docker.sh ${RELEASE}
