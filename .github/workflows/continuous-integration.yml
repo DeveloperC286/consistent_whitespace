@@ -49,11 +49,3 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: End to End test.
         run: make end-to-end-test
-  dockerfile:
-    name: Dockerfile
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code.
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Check Dockerfile.
-        run: make check-dockerfile

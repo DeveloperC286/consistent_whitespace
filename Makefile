@@ -2,7 +2,7 @@
 UID := $(shell id -u)
 GID := $(shell id -g)
 
-.PHONY: check-clean-git-history check-conventional-commits-linting check-rust-formatting check-python-formatting check-yaml-formatting fix-rust-formatting fix-python-formatting fix-yaml-formatting check-rust-linting check-github-actions-workflows-linting compile unit-test static-binary-test end-to-end-test publish-binary publish-crate
+.PHONY: check-clean-git-history check-conventional-commits-linting check-rust-formatting check-python-formatting check-yaml-formatting fix-rust-formatting fix-python-formatting fix-yaml-formatting check-rust-linting check-github-actions-workflows-linting compile unit-test end-to-end-test release publish-binary publish-crate dogfood publish-docker
 
 check-clean-git-history:
 	docker build -t check-clean-git-history -f ci/check-clean-git-history.Dockerfile .
@@ -76,9 +76,9 @@ publish-crate:
 	docker build -t publish-crate -f ci/publish-crate.Dockerfile .
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) -e CARGO_REGISTRY_TOKEN publish-crate
 
-check-dockerfile: release
+dogfood: release
 	docker build -t consistent-whitespace -f Dockerfile .
-	docker run --rm consistent-whitespace --help
+	docker run --rm -v $(PWD):/workspace consistent-whitespace
 
 publish-docker: release
 	./ci/publish-docker.sh ${RELEASE}
