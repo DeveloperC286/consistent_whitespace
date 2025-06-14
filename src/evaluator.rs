@@ -1,36 +1,62 @@
+use std::path::PathBuf;
+
 use crate::lexical_analysis::{File, Files, Line, Token};
 
-#[derive(PartialEq)]
-pub enum State {
-    Consistent,
-    Inconsistent,
+pub struct ConsistentWhitespaceErrors {
+    pub errors: Vec<ConsistentWhitespaceError>,
 }
 
-pub fn evaluate(files: Files) -> State {
-    for file in files {
-        let state = evaluate_file(&file);
+pub struct ConsistentWhitespaceError {
+    pub path: PathBuf,
+    pub lines: Vec<LineState>,
+}
 
-        if state == State::Inconsistent {
-            warn!("File {} is inconsistent.", file.path.display());
-            return State::Inconsistent;
-        }
+pub struct LineState {
+    pub line_number: usize,
+    pub format: Format,
+}
+
+pub fn evaluate(files: Files) -> Option<ConsistentWhitespaceErrors> {
+    let errors: Vec<ConsistentWhitespaceError> = files
+        .into_iter()
+        .filter_map(|file| evaluate_file(&file))
+        .collect();
+
+    if errors.is_empty() {
+        None
+    } else {
+        Some(ConsistentWhitespaceErrors { errors })
     }
-
-    State::Consistent
 }
 
-pub fn evaluate_file(file: &File) -> State {
-    let formats: Vec<Format> = file.lines.iter().map(evaluate_line).collect();
-    let spaces = formats.iter().filter(|&e| *e == Format::Spaces).count();
-    let tabs = formats.iter().filter(|&e| *e == Format::Tabs).count();
-    let mixed = formats.iter().filter(|&e| *e == Format::Mixed).count();
+pub fn evaluate_file(file: &File) -> Option<ConsistentWhitespaceError> {
+    let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
-    match (spaces, tabs, mixed) {
-        // All lines are spaces.
-        (_, 0, 0) => State::Consistent,
-        // All lines are tabs.
-        (0, _, 0) => State::Consistent,
-        (_, _, _) => State::Inconsistent,
+    let spaces = lines
+        .iter()
+        .filter(|&line| line.format == Format::Spaces)
+        .count();
+    let tabs = lines
+        .iter()
+        .filter(|&line| line.format == Format::Tabs)
+        .count();
+    let mixed = lines
+        .iter()
+        .filter(|&line| line.format == Format::Mixed)
+        .count();
+    let none = lines
+        .iter()
+        .filter(|&line| line.format == Format::None)
+        .count();
+
+    match (spaces, tabs, mixed, none) {
+        // All lines are spaces or all lines are tabs - consistent
+        (_, 0, 0, _) | (0, _, 0, _) => None,
+        // Mixed indentation
+        (_, _, _, _) => Some(ConsistentWhitespaceError {
+            path: file.path.clone(),
+            lines,
+        }),
     }
 }
 
@@ -39,15 +65,25 @@ pub enum Format {
     Spaces,
     Tabs,
     Mixed,
+    None,
 }
 
-pub fn evaluate_line(line: &Line) -> Format {
-    let spaces = line.iter().filter(|&e| *e == Token::Space).count();
-    let tabs = line.iter().filter(|&e| *e == Token::Tab).count();
+pub fn evaluate_line(line: &Line) -> LineState {
+    let spaces = line.tokens.iter().filter(|&e| *e == Token::Space).count();
+    let tabs = line.tokens.iter().filter(|&e| *e == Token::Tab).count();
 
-    match (spaces, tabs) {
-        (0, _) => Format::Tabs,
-        (_, 0) => Format::Spaces,
-        (_, _) => Format::Mixed,
+    let format = if line.tokens.is_empty() {
+        Format::None
+    } else {
+        match (spaces, tabs) {
+            (0, _) => Format::Tabs,
+            (_, 0) => Format::Spaces,
+            (_, _) => Format::Mixed,
+        }
+    };
+
+    LineState {
+        line_number: line.line_number,
+        format,
     }
 }
