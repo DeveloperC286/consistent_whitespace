@@ -17,7 +17,7 @@ check-rust-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-rust-formatting
 
 check-shell-formatting:
-	docker pull mvdan/shfmt:v3.8.0-alpine
+	docker pull mvdan/shfmt:v3.9.0-alpine@sha256:cb4ca87cc18e52f184a7ba1ae1ef7350b79a2c216ace78a0d24b473e87f0b8f5
 	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:v3.9.0-alpine --simplify --diff ci/* 
 
 check-python-formatting:
@@ -25,7 +25,7 @@ check-python-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-python-formatting
 
 check-yaml-formatting:
-	docker pull ghcr.io/google/yamlfmt:0.17.0
+	docker pull ghcr.io/google/yamlfmt:0.17.0@sha256:b4ebf4ff064f5bcf779ef4799dad1fc52542e137677699210aea2de2b270e97f
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) ghcr.io/google/yamlfmt:0.17.0 -verbose -lint -dstar .github/workflows/*
 
 fix-rust-formatting:
@@ -33,7 +33,7 @@ fix-rust-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) fix-rust-formatting
 
 fix-shell-formatting:
-	docker pull mvdan/shfmt:v3.11.0-alpine
+	docker pull mvdan/shfmt:v3.11.0-alpine@sha256:394d755b6007056a2e6d7537ccdbdcfca01b9855ba91e99df0166ca039c9d422
 	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:v3.11.0-alpine --simplify --write ci/* 
 
 fix-python-formatting:
@@ -41,7 +41,7 @@ fix-python-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) fix-python-formatting
 
 fix-yaml-formatting:
-	docker pull ghcr.io/google/yamlfmt:0.17.0
+	docker pull ghcr.io/google/yamlfmt:0.17.0@sha256:b4ebf4ff064f5bcf779ef4799dad1fc52542e137677699210aea2de2b270e97f
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) ghcr.io/google/yamlfmt:0.17.0 -verbose -dstar .github/workflows/*
 
 check-rust-linting:
@@ -49,7 +49,7 @@ check-rust-linting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-rust-linting
 
 check-github-actions-workflows-linting:
-	docker pull rhysd/actionlint:1.7.7
+	docker pull rhysd/actionlint:1.7.7@sha256:887a259a5a534f3c4f36cb02dca341673c6089431057242cdc931e9f133147e9
 	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) rhysd/actionlint:1.7.7 -verbose -color
 
 compile:
