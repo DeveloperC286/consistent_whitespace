@@ -44,7 +44,7 @@
         "/(^|/)Makefile[^/]*$/"
       ],
       "matchStrings": [
-        "docker\\s+pull\\s+(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+        "docker\\s+pull\\s+(?<depName>[^:]+):(?<currentValue>[^\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
