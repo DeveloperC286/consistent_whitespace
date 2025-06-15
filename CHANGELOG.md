@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.0 (2025-06-15)
+
+## What's Changed
+* feat: adding additional reporting by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/200
+* fix: correcting file path walking by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/202
+* chore(deps): update mvdan/shfmt:v3.9.0-alpine docker digest to 35917e7 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/204
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.5.0...v0.6.0
+
 ## 0.5.0 (2025-06-14)
 
 ## What's Changed
