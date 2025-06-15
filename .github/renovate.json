@@ -3,7 +3,7 @@
   "extends": [
     "config:best-practices"
   ],
-  "automerge": true,
+  "automerge": false,
   "dockerfile": {
     "managerFilePatterns": [
       "/(^|/|\\.)Dockerfile$/",
@@ -36,6 +36,18 @@
       "datasourceTemplate": "repology",
       "depNameTemplate": "alpine_{{alpineMajor}}_{{alpineMinor}}/{{name}}",
       "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/|\\.)Makefile$/",
+        "/(^|/)Makefile[^/]*$/"
+      ],
+      "matchStrings": [
+        "docker\\s+pull\\s+(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
     }
   ]
 }
