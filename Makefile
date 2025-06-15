@@ -17,7 +17,7 @@ check-rust-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-rust-formatting
 
 check-shell-formatting:
-	docker pull mvdan/shfmt:v3.9.0-alpine@sha256:cb4ca87cc18e52f184a7ba1ae1ef7350b79a2c216ace78a0d24b473e87f0b8f5
+	docker pull mvdan/shfmt:v3.9.0-alpine@sha256:35917e76b35abf2c13d55b5c20f2e34a01e9b6ae71b443d916897bc7f1873451
 	docker run --rm -v $(PWD):/workspace -w /workspace -u $(UID):$(GID) mvdan/shfmt:v3.9.0-alpine --simplify --diff ci/* 
 
 check-python-formatting:
