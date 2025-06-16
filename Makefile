@@ -17,7 +17,7 @@ check-rust-formatting:
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-rust-formatting
 
 # renovate: depName=mvdan/shfmt
-SHFMT_VERSION=v3.8.0-alpine@sha256:fa2bbdeb743cf8c7ba1ff712e8976723144fbea24143d42e302cc3538806bbd4
+SHFMT_VERSION=v3.11.0-alpine@sha256:394d755b6007056a2e6d7537ccdbdcfca01b9855ba91e99df0166ca039c9d422
 
 check-shell-formatting:
 	docker pull mvdan/shfmt:$(SHFMT_VERSION)
