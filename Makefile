@@ -16,6 +16,7 @@ check-rust-formatting:
 	docker build -t check-rust-formatting -f ci/check-rust-formatting.Dockerfile .
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) check-rust-formatting
 
+# renovate: depName=mvdan/shfmt
 SHFMT_VERSION := v3.8.0-alpine@sha256:fa2bbdeb743cf8c7ba1ff712e8976723144fbea24143d42e302cc3538806bbd4
 
 check-shell-formatting:
