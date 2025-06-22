@@ -30,3 +30,8 @@ def two_space_indeted_file_copied(context):
 @when('the path "two-space-indented.txt" is provided.')
 def two_space_indented_path_provided(context):
     context.arguments = " two-spaces-indented.txt "
+
+
+@when('the whitespace "{whitespace}" is provided.')
+def whitespace_provided(context, whitespace):
+    context.arguments = f" --whitespace {whitespace} "
