@@ -1,35 +1,26 @@
 import shutil
+import os
 
 from behave import when
 
 
-@when('a two space indented file is copied into the directory.')
-def two_space_indeted_file_copied(context):
+@when('"{filename}" is copied into the directory.')
+def file_copied_into_directory(context, filename):
     shutil.copy2(context.behave_directory +
-                 "/examples/two-spaces-indented.txt", context.execution_directory)
+                 f"/examples/{filename}", context.execution_directory)
 
 
-@when('a tab indented file is copied into the directory.')
-def two_space_indeted_file_copied(context):
-    shutil.copy2(context.behave_directory +
-                 "/examples/tab-indented.txt", context.execution_directory)
+@when('"{filename}" is copied to "{path}".')
+def file_copied_into_directory(context, filename, path):
+    source_path = context.behave_directory + f"/examples/{filename}"
+    destination_path = context.execution_directory + f"/{path}"
+    os.makedirs(os.path.dirname(destination_path), exist_ok=True)
+    shutil.copy2(source_path, destination_path)
 
 
-@when('a mixed within line indented file is copied into the directory.')
-def two_space_indeted_file_copied(context):
-    shutil.copy2(context.behave_directory +
-                 "/examples/mixed-within-line-indented.txt", context.execution_directory)
-
-
-@when('a mixed across lines indented file is copied into the directory.')
-def two_space_indeted_file_copied(context):
-    shutil.copy2(context.behave_directory +
-                 "/examples/mixed-across-lines-indented.txt", context.execution_directory)
-
-
-@when('the path "two-space-indented.txt" is provided.')
-def two_space_indented_path_provided(context):
-    context.arguments = " two-spaces-indented.txt "
+@when('the path "{path}" is provided.')
+def path_provided(context, path):
+    context.arguments = f" {path} "
 
 
 @when('the whitespace "{whitespace}" is provided.')
