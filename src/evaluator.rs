@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use crate::lexical_analysis::{File, Files, Line, Token};
+use crate::WhitespacePreference;
 
 pub struct ConsistentWhitespaceErrors {
     pub errors: Vec<ConsistentWhitespaceError>,
@@ -16,10 +17,13 @@ pub struct LineState {
     pub format: Format,
 }
 
-pub fn evaluate(files: Files) -> Option<ConsistentWhitespaceErrors> {
+pub fn evaluate(
+    files: Files,
+    whitespace_preference: &WhitespacePreference,
+) -> Option<ConsistentWhitespaceErrors> {
     let errors: Vec<ConsistentWhitespaceError> = files
         .into_iter()
-        .filter_map(|file| evaluate_file(&file))
+        .filter_map(|file| evaluate_file(&file, whitespace_preference))
         .collect();
 
     if errors.is_empty() {
@@ -29,7 +33,10 @@ pub fn evaluate(files: Files) -> Option<ConsistentWhitespaceErrors> {
     }
 }
 
-pub fn evaluate_file(file: &File) -> Option<ConsistentWhitespaceError> {
+pub fn evaluate_file(
+    file: &File,
+    whitespace_preference: &WhitespacePreference,
+) -> Option<ConsistentWhitespaceError> {
     let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
     let spaces = lines
@@ -48,6 +55,26 @@ pub fn evaluate_file(file: &File) -> Option<ConsistentWhitespaceError> {
         .iter()
         .filter(|&line| line.format == Format::None)
         .count();
+
+    match whitespace_preference {
+        WhitespacePreference::Tabs => {
+            if spaces > 0 || mixed > 0 {
+                return Some(ConsistentWhitespaceError {
+                    path: file.path.clone(),
+                    lines,
+                });
+            }
+        }
+        WhitespacePreference::Spaces => {
+            if tabs > 0 || mixed > 0 {
+                return Some(ConsistentWhitespaceError {
+                    path: file.path.clone(),
+                    lines,
+                });
+            }
+        }
+        WhitespacePreference::Either => {}
+    };
 
     match (spaces, tabs, mixed, none) {
         // All lines are spaces or all lines are tabs - consistent

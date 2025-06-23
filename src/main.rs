@@ -12,12 +12,26 @@ mod reporter;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
+#[derive(Debug, Clone, clap::ValueEnum)]
+pub enum WhitespacePreference {
+    /// Only accept tabs as whitespace.
+    Tabs,
+    /// Only accept spaces as whitespace.
+    Spaces,
+    /// Accept either tabs or spaces as long as they are consistent.
+    Either,
+}
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Arguments {
     /// Files or directories to check. If none are provided, the current directory is used.
     #[arg(value_name = "PATH", value_parser, num_args = 0.., default_value = ".")]
     paths: Vec<std::path::PathBuf>,
+
+    /// The only whitespacing that can be used. If not specified, either tabs or spaces are acceptable as long as they are consistent.
+    #[arg(long, value_enum, default_value = "either")]
+    whitespace: WhitespacePreference,
 }
 
 fn main() {
@@ -40,7 +54,7 @@ fn main() {
 fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
-    if let Some(errors) = evaluator::evaluate(files) {
+    if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace) {
         reporter::report(&errors);
         Ok(1)
     } else {
