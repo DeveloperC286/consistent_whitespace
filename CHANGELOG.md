@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.6.0 (2025-06-23)
+
+## What's Changed
+* feat: adding additional reporting by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/200
+* fix: correcting file path walking by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/202
+* ci: adding Makefile Docker updating by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/205
+* ci: fixing Makefile Renovate Docker image updating by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/208
+* ci: simplifying mirroring workflow by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/209
+* chore(deps): update docker/setup-buildx-action digest to e468171 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/210
+* chore(deps): update ghcr.io/google/yamlfmt docker tag to v0.17.1 by @renovate in https://github.com/DeveloperC286/consistent_whitespace/pull/211
+* feat: acceptable whitespacing CLI argument by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/212
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.5.0...v0.6.0
+
 ## 0.5.0 (2025-06-14)
 
 ## What's Changed
