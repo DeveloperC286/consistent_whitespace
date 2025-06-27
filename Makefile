@@ -88,7 +88,7 @@ publish-crate:
 	docker build -t publish-crate -f ci/publish-crate.Dockerfile .
 	docker run --rm -v $(PWD):/workspace -u $(UID):$(GID) -e CARGO_REGISTRY_TOKEN publish-crate
 
-dogfood: release
+dogfood-docker: release
 	docker build -t consistent-whitespace -f Dockerfile .
 	docker run --rm -v $(PWD):/workspace consistent-whitespace
 

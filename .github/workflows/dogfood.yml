@@ -1,13 +1,16 @@
-name: Continuous Integration (CI)
+name: Dogfood
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
-  dogfood:
-    name: Dogfood
+  docker:
+    name: Docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code.
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Dogfooding
-        run: make dogfood 
+      - name: Dogfooding Docker
+        run: make dogfood-docker 
