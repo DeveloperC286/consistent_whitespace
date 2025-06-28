@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code.
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
       - name: Check whitespace consistency.
-        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0@sha256:b254ce59fc89cf0369aba7431da02393c04bd1fe4ede2bfdc8bef55cdafb0008
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
         with:
           args: .
