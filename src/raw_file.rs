@@ -56,7 +56,7 @@ fn get_raw_files_from_paths(paths: Vec<PathBuf>) -> Result<RawFiles> {
 }
 
 fn get_raw_file(path: &Path) -> Result<RawFile> {
-    trace!("Reading in the file {}.", path.display());
+    debug!("Reading in the file {}.", path.display());
     let lines = std::fs::read_to_string(path)
         .context(format!("Failed to read the file {}", path.display()))?
         .lines()
