@@ -32,13 +32,25 @@ struct Arguments {
     /// The only whitespacing that can be used. If not specified, either tabs or spaces are acceptable as long as they are consistent.
     #[arg(long, value_enum, default_value = "either")]
     whitespace: WhitespacePreference,
+
+    #[arg(
+        long,
+        help = "Enable verbose output, respects RUST_LOG environment variable if set."
+    )]
+    verbose: bool,
 }
 
 fn main() {
-    pretty_env_logger::init();
-    trace!("Version {}.", env!("CARGO_PKG_VERSION"));
+    info!("Version {}.", env!("CARGO_PKG_VERSION"));
     let arguments = Arguments::parse();
     debug!("The command line arguments provided are {arguments:?}.");
+
+    // Set up logging: if verbose is true and RUST_LOG is not set, default to info level
+    if arguments.verbose && std::env::var("RUST_LOG").is_err() {
+        std::env::set_var("RUST_LOG", "info");
+    }
+
+    pretty_env_logger::init();
 
     match run(arguments) {
         Ok(exit_code) => {
