@@ -54,7 +54,7 @@ jobs:
       - name: Checkout code.
         uses: actions/checkout@v4
       - name: Check whitespace consistency.
-        uses: docker://ghcr.io/developerc286/consistent_whitespace:0.6.0
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:0.7.0
         with:
           args: .
 ```
@@ -64,7 +64,7 @@ jobs:
 <!-- x-release-please-start-version -->
 ```yaml
 check-whitespace:
-  image: ghcr.io/developerc286/consistent_whitespace:0.6.0
+  image: ghcr.io/developerc286/consistent_whitespace:0.7.0
   script:
     - consistent_whitespace .
   rules:
@@ -76,7 +76,7 @@ check-whitespace:
 ### Binary
 <!-- x-release-please-start-version -->
 ```sh
-version="v0.6.0" && wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+version="v0.7.0" && wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
 ```
 <!-- x-release-please-end -->
 
