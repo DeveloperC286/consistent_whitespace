@@ -5,21 +5,14 @@
 
 A utility that checks for consistent whitespace across your file(s).
 
-## Installation
-### From Cargo
-```bash
-cargo install consistent_whitespace
-```
-
-### From static binary
-```bash
-wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${consistent_whitespace_VERSION}/x86_64-unknown-linux-musl.gz" | gzip -d >/usr/bin/consistent_whitespace && chmod 755 /usr/bin/consistent_whitespace
-```
-
-### From Docker
-```bash
-docker pull ghcr.io/developerc286/consistent_whitespace:latest
-```
+- [Usage](#usage)
+- [Examples](#examples)
+  - [GitHub Actions](#github-actions)
+  - [GitLab CI](#gitlab-ci)
+- [Installation](#installation)
+  - [Binary](#binary)
+  - [Cargo](#cargo)
+  - [Docker](#docker)
 
 ## Usage
 ### Basic Usage
@@ -42,7 +35,9 @@ consistent_whitespace --whitespace tabs
 consistent_whitespace --whitespace either
 ```
 
-## GitHub Actions Example
+## Examples
+### GitHub Actions
+<!-- x-release-please-start-version -->
 ```yaml
 name: Continuous Integration (CI)
 
@@ -59,10 +54,45 @@ jobs:
       - name: Checkout code.
         uses: actions/checkout@v4
       - name: Check whitespace consistency.
-        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:0.6.0
         with:
           args: .
 ```
+<!-- x-release-please-end -->
 
-## Issues/Feature Requests
-To report an issue or request a new feature use [https://github.com/DeveloperC286/consistent_whitespace/issues](https://github.com/DeveloperC286/consistent_whitespace/issues).
+### GitLab CI
+<!-- x-release-please-start-version -->
+```yaml
+check-whitespace:
+  image: ghcr.io/developerc286/consistent_whitespace:0.6.0
+  script:
+    - consistent_whitespace .
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+```
+<!-- x-release-please-end -->
+
+## Installation
+### Binary
+<!-- x-release-please-start-version -->
+```sh
+version="v0.6.0" && wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+```
+<!-- x-release-please-end -->
+
+### Cargo
+```bash
+cargo install consistent_whitespace
+```
+
+### Docker
+You can use the Docker image published to [ghcr.io/developerc286/consistent_whitespace](https://github.com/DeveloperC286/consistent_whitespace/pkgs/container/consistent_whitespace).
+
+<!-- x-release-please-start-version -->
+```bash
+docker run --rm -v $(pwd):/workspace -w /workspace ghcr.io/developerc286/consistent_whitespace:latest .
+```
+<!-- x-release-please-end -->
+
+### Issues/Feature Requests
+Report issues or request features on our [GitHub Issues](https://github.com/DeveloperC286/consistent_whitespace/issues).
