@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.7.0 (2025-07-14)
+
+## What's Changed
+* test: adding more detailed path tests by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/215
+* chore(deps): update ghcr.io/google/yamlfmt docker tag to v0.17.2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/217
+* build: removing unneeded Git dependency by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/218
+* chore(deps): update dependency developerc286/clean_git_history to v1.0.4 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/219
+* ci: migrating to clean_git_history Docker image by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/220
+* chore(deps): update rust docker tag to v1.88.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/221
+* docs: adding basic README.md by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/222
+* chore(deps): pin dependencies by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/223
+* revert: "chore(deps): pin dependencies (#223)" by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/225
+* chore(deps): update dependency developerc286/conventional_commits_lin… by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/227
+* refactor: GitHub Actions setting permissions by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/228
+* build: simplifying Makefile by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/229
+* chore(deps): update mvdan/shfmt docker tag to v3.12.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/230
+* chore(deps): update dependency alpine_3_21/git to v2.47.3-r0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/231
+* fix(deps): update rust crate clap to v4.5.41 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/232
+* Replicate changes from pull request by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/233
+* docs: condensed/simplified README.md by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/234
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.6.0...v0.7.0
+
 ## 0.6.0 (2025-06-23)
 
 ## What's Changed
