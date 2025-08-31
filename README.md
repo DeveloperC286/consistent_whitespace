@@ -81,16 +81,18 @@ version="v0.6.0" && wget -O - "https://github.com/DeveloperC286/consistent_white
 <!-- x-release-please-end -->
 
 ### Cargo
+<!-- x-release-please-start-version -->
 ```bash
-cargo install consistent_whitespace
+cargo install consistent_whitespace@0.6.0
 ```
+<!-- x-release-please-end -->
 
 ### Docker
 You can use the Docker image published to [ghcr.io/developerc286/consistent_whitespace](https://github.com/DeveloperC286/consistent_whitespace/pkgs/container/consistent_whitespace).
 
 <!-- x-release-please-start-version -->
 ```bash
-docker run --rm -v $(pwd):/workspace -w /workspace ghcr.io/developerc286/consistent_whitespace:latest .
+docker run --rm -v $(pwd):/workspace -w /workspace ghcr.io/developerc286/consistent_whitespace:0.6.0 .
 ```
 <!-- x-release-please-end -->
 
