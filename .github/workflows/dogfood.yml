@@ -8,9 +8,14 @@ permissions:
 jobs:
   docker:
     name: Docker
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.architecture }}
+    strategy:
+      matrix:
+        architecture: [ubuntu-24.04, ubuntu-24.04-arm]
     steps:
       - name: Checkout code.
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - name: Dogfooding Docker
-        run: make dogfood-docker
+      - name: Setup Nix.
+        uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
+      - name: Dogfooding Docker.
+        run: nix develop -c make dogfood-docker

@@ -1,6 +1,7 @@
 FROM alpine:3.22.2@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
 
-COPY ./target/x86_64-unknown-linux-musl/release/consistent_whitespace /usr/local/bin/
+ARG TARGET
+COPY ./target/${TARGET}/release/consistent_whitespace /usr/local/bin/
 
 WORKDIR /workspace
 
