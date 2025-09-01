@@ -58,17 +58,16 @@ fn evaluate_across_files(
         }
     }
 
-    // If no files have indentation, return None (no errors)
     if file_formats.is_empty() {
         return None;
     }
 
-    // Check if all files use the same format
-    let first_format = &file_formats[0].1;
+    let first_format = file_formats[0].1.clone();
+
     let inconsistent_files: Vec<ConsistentWhitespaceError> = file_formats
         .into_iter()
         .filter_map(|(path, format)| {
-            if &format != first_format {
+            if format != first_format {
                 // Create an error for this file
                 let file = files.iter().find(|f| f.path == path).unwrap();
                 let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
