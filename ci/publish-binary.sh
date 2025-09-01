@@ -11,7 +11,7 @@ fi
 
 RELEASE="$1"
 
-target="x86_64-unknown-linux-musl"
-tar -czvf "${target}.tar.gz" -C "target/${target}/release" "consistent_whitespace"
+target=$(rustc -vV | grep host | cut -d ' ' -f 2)
+tar -czvf "${target}.tar.gz" -C "target/release" "consistent_whitespace"
 gh release upload "${RELEASE}" "${target}.tar.gz"
 rm "${target}.tar.gz"
