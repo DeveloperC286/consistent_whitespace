@@ -11,13 +11,9 @@ jobs:
     runs-on: ${{ matrix.architecture }}
     strategy:
       matrix:
-        architecture: [ubuntu-24.04, ubuntu-24.04-arm]
+        architecture: [ubuntu-latest]
     steps:
       - name: Checkout code.
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - name: Setup Nix.
-        uses: cachix/install-nix-action@fc6e360bedc9ee72d75e701397f0bb30dce77568 # v31.5.2
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
       - name: Dogfooding Docker
-        run: nix-shell shell.nix --run "make dogfood-docker"
+        run: make dogfood-docker
