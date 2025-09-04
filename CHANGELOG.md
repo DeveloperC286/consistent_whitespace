@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.7.0 (2025-09-04)
+
+## What's Changed
+* test: adding more detailed path tests by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/215
+* chore(deps): update ghcr.io/google/yamlfmt docker tag to v0.17.2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/217
+* build: removing unneeded Git dependency by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/218
+* chore(deps): update dependency developerc286/clean_git_history to v1.0.4 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/219
+* ci: migrating to clean_git_history Docker image by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/220
+* chore(deps): update rust docker tag to v1.88.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/221
+* docs: adding basic README.md by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/222
+* chore(deps): pin dependencies by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/223
+* revert: "chore(deps): pin dependencies (#223)" by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/225
+* chore(deps): update dependency developerc286/conventional_commits_lin… by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/227
+* refactor: GitHub Actions setting permissions by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/228
+* build: simplifying Makefile by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/229
+* chore(deps): update mvdan/shfmt docker tag to v3.12.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/230
+* chore(deps): update dependency alpine_3_21/git to v2.47.3-r0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/231
+* fix(deps): update rust crate clap to v4.5.41 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/232
+* Replicate changes from pull request by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/233
+* docs: condensed/simplified README.md by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/234
+* chore(deps): update alpine:3.22 docker digest to 4bcff63 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/235
+* chore(deps): update python:3.13.5-alpine3.21 docker digest to 763eee4 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/236
+* chore(deps): update rust:1.88.0-alpine3.21 docker digest to 54e937b by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/237
+* chore(deps): update alpine docker tag to v3.22.1 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/238
+* fix(deps): update rust crate clap to v4.5.42 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/239
+* chore(deps): update docker/login-action digest to 184bdaa by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/240
+* chore(deps): update dependency behave to v1.3.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/241
+* fix(deps): update rust crate clap to v4.5.43 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/242
+* chore(deps): update python docker tag to v3.13.6 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/243
+* chore(deps): update python:3.13.6-alpine3.21 docker digest to f5f2574 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/244
+* chore(deps): update rust docker tag to v1.89.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/246
+* chore(deps): update dependency alpine_3_22/github-cli to v2.72.0-r2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/245
+* chore(deps): update rust:1.89.0-alpine3.21 docker digest to 8f717b9 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/247
+* chore(deps): update actions/checkout action to v4.3.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/251
+* chore(deps): update actions/checkout action to v5 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/252
+* chore(deps): update dependency behave to v1.3.1 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/253
+* fix(deps): update rust crate clap to v4.5.44 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/254
+* chore(deps): update dependency parse-type to v0.6.6 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/257
+* fix(deps): update rust crate anyhow to v1.0.99 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/258
+* fix(deps): update rust crate clap to v4.5.45 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/259
+* chore(deps): update python:3.13.6-alpine3.21 docker digest to 5bcbb2a by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/260
+* chore(deps): update python:3.13.6-alpine3.21 docker digest to 52153b8 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/261
+* chore(deps): update python:3.13.6-alpine3.21 docker digest to 2af1351 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/262
+* chore(deps): update python:3.13.6-alpine3.21 docker digest to 4358f4b by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/263
+* chore(deps): update python docker tag to v3.13.7 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/264
+* chore(deps): update python:3.13.7-alpine3.21 docker digest to 8f70fe3 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/265
+* chore(deps): update python:3.13.7-alpine3.21 docker digest to 0c3d4f2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/266
+* chore(deps): update googleapis/release-please-action action to v4.3.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/267
+* fix(deps): update rust crate clap to v4.5.46 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/268
+* chore(deps): update dependency behave to v1.3.2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/269
+* docs: installing specific versions by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/270
+* feat: GitHub Actions output formatting by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/271
+* fix(deps): update rust crate clap to v4.5.47 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/275
+* fix(deps): update rust crate log to v0.4.28 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/276
+* chore(deps): update dependency behave to v1.3.3 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/277
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.6.0...v0.7.0
+
 ## 0.6.0 (2025-06-23)
 
 ## What's Changed
