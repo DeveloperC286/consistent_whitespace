@@ -13,6 +13,9 @@ pkgs.mkShell {
     pkgs.rustc
     pkgs.cargo
     pkgs.clippy
+    # Rust cross compiling.
+    pkgs.rustup
+    pkgs.cargo-cross
     # Shell scripts.
     pkgs.shfmt
     # GitHub Action Workflows.
