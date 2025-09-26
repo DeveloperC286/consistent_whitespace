@@ -14,7 +14,7 @@ conventional-commits-linting:
     RUN cargo install conventional_commits_linter
     COPY ".git" "."
     ARG from="origin/HEAD"
-    RUN /usr/local/cargo/bin/conventional_commits_linter --from-reference "${from}" --allow-angular-type-only
+    RUN /usr/local/cargo/bin/conventional_commits_linter --from-reference "${from}" --type angular
 
 
 formatting-base:
