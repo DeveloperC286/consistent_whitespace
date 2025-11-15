@@ -4,6 +4,15 @@ UID := $(shell id -u)
 GID := $(shell id -g)
 DOCKER_RUN_WRITE_OPTS := $(DOCKER_RUN_OPTS) -u $(UID):$(GID)
 
+# Auto-detect musl target for static binaries
+MUSL_TARGET := $(shell uname -m | sed 's/x86_64/x86_64-unknown-linux-musl/;s/arm64/aarch64-unknown-linux-musl/;s/aarch64/aarch64-unknown-linux-musl/')
+ifeq ($(filter %unknown-linux-musl,$(MUSL_TARGET)),)
+    $(error Unsupported architecture: $(shell uname -m). Only x86_64, arm64, and aarch64 are supported)
+endif
+
+# Use --locked in CI to ensure reproducible builds
+CARGO_LOCKED := $(if $(CI),--locked,)
+
 .PHONY: default
 default: compile
 
@@ -23,51 +32,39 @@ check-conventional-commits-linting:
 
 .PHONY: check-rust-formatting
 check-rust-formatting:
-	docker build -t check-rust-formatting -f ci/check-rust-formatting.Dockerfile .
-	docker run $(DOCKER_RUN_OPTS) check-rust-formatting
-
-# renovate: depName=mvdan/shfmt
-SHFMT_VERSION=v3.12.0-alpine@sha256:204a4d2d876123342ad394bd9a28fb91e165abc03868790d4b39cfa73233f150
+	cargo fmt --all -- --check --config=group_imports=StdExternalCrate
 
 .PHONY: check-shell-formatting
 check-shell-formatting:
-	docker run $(DOCKER_RUN_OPTS) mvdan/shfmt:$(SHFMT_VERSION) --simplify --diff ci/*
+	shfmt --simplify --diff ci/*
 
 .PHONY: check-python-formatting
 check-python-formatting:
-	docker build -t check-python-formatting -f ci/check-python-formatting.Dockerfile .
-	docker run $(DOCKER_RUN_OPTS) check-python-formatting
-
-# renovate: depName=ghcr.io/google/yamlfmt
-YAMLFMT_VERSION=0.20.0@sha256:cd11483ba1119371593a7d55386d082da518e27dd932ee00db32e5fb6f3a58c0
+	autopep8 --exit-code --diff --aggressive --aggressive --max-line-length 120 --recursive end-to-end-tests/
 
 .PHONY: check-yaml-formatting
 check-yaml-formatting:
-	docker run $(DOCKER_RUN_OPTS) ghcr.io/google/yamlfmt:$(YAMLFMT_VERSION) -verbose -lint -dstar .github/workflows/*
+	yamlfmt -verbose -lint -dstar .github/workflows/*
 
 .PHONY: fix-rust-formatting
 fix-rust-formatting:
-	docker build -t fix-rust-formatting -f ci/fix-rust-formatting.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) fix-rust-formatting
+	cargo fmt --all -- --config=group_imports=StdExternalCrate
 
 .PHONY: fix-shell-formatting
 fix-shell-formatting:
-	docker run $(DOCKER_RUN_WRITE_OPTS) mvdan/shfmt:$(SHFMT_VERSION) --simplify --write ci/*
+	shfmt --simplify --write ci/*
 
 .PHONY: fix-python-formatting
 fix-python-formatting:
-	docker build -t fix-python-formatting -f ci/fix-python-formatting.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) fix-python-formatting
+	autopep8 --in-place --aggressive --aggressive --max-line-length 120 --recursive end-to-end-tests/
 
 .PHONY: fix-yaml-formatting
 fix-yaml-formatting:
-	docker run $(DOCKER_RUN_WRITE_OPTS) ghcr.io/google/yamlfmt:$(YAMLFMT_VERSION) -verbose -dstar .github/workflows/*
+	yamlfmt -verbose -dstar .github/workflows/*
 
 .PHONY: check-rust-linting
 check-rust-linting:
-	docker build -t check-rust-linting -f ci/check-rust-linting.Dockerfile .
-	docker run $(DOCKER_RUN_OPTS) check-rust-linting
-
+	cargo clippy --verbose $(CARGO_LOCKED) -- -D warnings
 
 .PHONY: check-github-actions-workflows-linting
 check-github-actions-workflows-linting:
@@ -75,39 +72,33 @@ check-github-actions-workflows-linting:
 
 .PHONY: compile
 compile:
-	docker build -t compile -f ci/compile.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) compile
+	cargo build --verbose $(CARGO_LOCKED)
 
 .PHONY: unit-test
 unit-test:
-	docker build -t unit-test -f ci/unit-test.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) unit-test
+	cargo test --verbose $(CARGO_LOCKED)
 
 .PHONY: end-to-end-test
 end-to-end-test: compile
-	docker build -t end-to-end-test -f ci/end-to-end-test.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) -w /workspace/end-to-end-tests end-to-end-test
+	cd end-to-end-tests/ && behave
 
 .PHONY: release
 release:
-	docker build -t compile -f ci/compile.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) compile --release
+	cargo build --release --target=$(MUSL_TARGET) --locked --verbose
 
 .PHONY: publish-binary
 publish-binary: release
-	docker build -t publish-binary -f ci/publish-binary.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) -e GH_TOKEN publish-binary $(RELEASE)
+	./ci/publish-binary.sh ${RELEASE} $(MUSL_TARGET)
 
 .PHONY: publish-crate
 publish-crate:
-	docker build -t publish-crate -f ci/publish-crate.Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) -e CARGO_REGISTRY_TOKEN publish-crate
+	cargo publish --verbose
 
 .PHONY: dogfood-docker
 dogfood-docker: release
-	docker build -t consistent-whitespace -f Dockerfile .
+	docker build --build-arg TARGET=$(MUSL_TARGET) -t consistent-whitespace -f Dockerfile .
 	docker run $(DOCKER_RUN_WRITE_OPTS) consistent-whitespace
 
 .PHONY: publish-docker
 publish-docker: release
-	./ci/publish-docker.sh ${RELEASE}
+	./ci/publish-docker.sh ${RELEASE} $(MUSL_TARGET)

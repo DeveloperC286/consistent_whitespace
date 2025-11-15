@@ -3,16 +3,17 @@
 set -o errexit
 set -o xtrace
 
-if [ $# -eq 0 ]; then
-	echo "Usage: $0 <release>"
+if [ $# -ne 2 ]; then
+	echo "Usage: $0 <release> <target>"
 	exit 1
 fi
 
 RELEASE="$1"
-REPOSITORY="$(basename $(git rev-parse --show-toplevel))"
+TARGET="$2"
+REPOSITORY="$(basename "$(git rev-parse --show-toplevel)")"
 IMAGE="ghcr.io/developerc286/${REPOSITORY}"
 
-docker build --tag "${IMAGE}:${RELEASE}" --file Dockerfile .
+docker build --build-arg TARGET="${TARGET}" --tag "${IMAGE}:${RELEASE}" --file Dockerfile .
 docker push "${IMAGE}:${RELEASE}"
 
 if [ "${RELEASE#v}" != "${RELEASE}" ]; then
