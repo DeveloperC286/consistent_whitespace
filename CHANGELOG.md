@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.1 (2025-11-16)
+
+## What's Changed
+* ci: multi architecture binaries/Docker images by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/330
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.7.0...v0.7.1
+
 ## 0.7.0 (2025-11-15)
 
 ## What's Changed
