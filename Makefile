@@ -100,5 +100,5 @@ dogfood-docker: release
 	docker run $(DOCKER_RUN_WRITE_OPTS) consistent-whitespace
 
 .PHONY: publish-docker
-publish-docker: release
-	./ci/publish-docker.sh ${RELEASE} $(MUSL_TARGET)
+publish-docker:
+	./ci/publish-docker.sh ${RELEASE}

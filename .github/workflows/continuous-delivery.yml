@@ -12,7 +12,10 @@ permissions:
 jobs:
   publish-binary:
     name: Publish Binary
-    runs-on: ubuntu-24.04
+    runs-on: ${{ matrix.architecture }}
+    strategy:
+      matrix:
+        architecture: [ubuntu-24.04, ubuntu-24.04-arm]
     steps:
       - name: Checkout code.
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -37,11 +40,10 @@ jobs:
   publish-docker:
     name: Publish Docker Image
     runs-on: ubuntu-24.04
+    needs: [publish-binary]
     steps:
       - name: Checkout code.
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - name: Setup Nix.
-        uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3
       - name: Login to GitHub Container Registry
@@ -51,4 +53,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish Docker Image
-        run: nix develop -c make publish-docker RELEASE="${GITHUB_REF_NAME}"
+        run: make publish-docker RELEASE="${GITHUB_REF_NAME}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
