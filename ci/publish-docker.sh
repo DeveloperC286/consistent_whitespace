@@ -28,10 +28,9 @@ docker buildx build --platform linux/amd64 --build-arg TARGET="x86_64-unknown-li
 docker buildx build --platform linux/arm64 --build-arg TARGET="aarch64-unknown-linux-musl" --tag "${IMAGE}:${RELEASE}-arm64" --file Dockerfile . --push
 
 # Create and push the multi-architecture manifest.
-docker manifest create "${IMAGE}:${RELEASE}" \
+docker buildx imagetools create --tag "${IMAGE}:${RELEASE}" \
 	"${IMAGE}:${RELEASE}-amd64" \
 	"${IMAGE}:${RELEASE}-arm64"
-docker manifest push "${IMAGE}:${RELEASE}"
 
 # Create alternate version tag (with/without 'v' prefix).
 if [ "${RELEASE#v}" != "${RELEASE}" ]; then
