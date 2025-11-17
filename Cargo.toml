@@ -1,6 +1,6 @@
 [package]
 name = "consistent_whitespace"
-version = "0.7.1"
+version = "0.7.2"
 description = "A utility that checks for consistent whitespace across your file(s)."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"

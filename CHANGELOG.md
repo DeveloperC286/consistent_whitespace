@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.2 (2025-11-17)
+
+## What's Changed
+* fix: handle manifest lists with buildx imagetools by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/332
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.7.1...v0.7.2
+
 ## 0.7.1 (2025-11-16)
 
 ## What's Changed
