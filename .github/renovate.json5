@@ -13,6 +13,9 @@
       "/(^|/)Dockerfile[^/]*$/"
     ]
   },
+  "nix": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
