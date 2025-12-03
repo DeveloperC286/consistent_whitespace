@@ -16,6 +16,7 @@ CARGO_LOCKED := $(if $(CI),--locked,)
 .PHONY: default
 default: compile
 
+<<<<<<< before updating
 # renovate: depName=ghcr.io/developerc286/clean_git_history
 CLEAN_GIT_HISTORY_VERSION=1.1.1@sha256:2b36fb6c76417a5feedd6136e52d5987cd96408c1ff4cda3f37af86219fe0636
 
@@ -30,6 +31,8 @@ CONVENTIONAL_COMMITS_LINTER_VERSION=0.16.1@sha256:571459d02adf6dd5f88f731c6d0eef
 check-conventional-commits-linting:
 	docker run $(DOCKER_RUN_WRITE_OPTS) ghcr.io/developerc286/conventional_commits_linter:$(CONVENTIONAL_COMMITS_LINTER_VERSION) --type angular $(FROM)
 
+=======
+>>>>>>> after updating
 .PHONY: check-rust-formatting
 check-rust-formatting:
 	cargo fmt --all -- --check --config=group_imports=StdExternalCrate
