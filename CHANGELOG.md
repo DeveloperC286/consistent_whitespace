@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.7.3 (2025-12-06)
+
+## What's Changed
+* chore(deps): update actions/checkout action to v5.0.1 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/334
+* chore(deps): update actions/checkout digest to 93cb6ef by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/336
+* chore(deps): update anthropics/claude-code-action digest to 906bd89 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/337
+* chore(deps): update rust crate clap to v4.5.52 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/338
+* chore(deps): update anthropics/claude-code-action digest to 6902c22 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/339
+* chore(deps): update rust crate clap to v4.5.53 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/340
+* chore(deps): update actions/checkout action to v6 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/341
+* build: using Rust copier template by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/342
+* build: removing copier GitHub shorthand URL by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/343
+* chore(deps): update anthropics/claude-code-action digest to f9b2917 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/345
+* chore(deps): update anthropics/claude-code-action digest to 798cf09 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/346
+* chore(deps): update anthropics/claude-code-action digest to a7e4c51 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/347
+* chore(deps): update anthropics/claude-code-action digest to 6337623 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/348
+* chore(deps): update actions/checkout digest to 8e8c483 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/349
+* chore(deps): update actions/checkout action to v6.0.1 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/350
+* chore(deps): update rust crate log to v0.4.29 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/351
+* chore(deps): update dependency https://github.com/developerc286/template to v1.3.1 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/344
+* chore(deps): update alpine docker tag to v3.23.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/353
+* chore(deps): update dependency https://github.com/developerc286/template to v1.4.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/354
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.7.2...v0.7.3
+
 ## 0.7.2 (2025-11-17)
 
 ## What's Changed
