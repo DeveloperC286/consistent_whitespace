@@ -20,6 +20,7 @@ jobs:
         uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
       - name: Check formatting.
         run: nix develop -c make check-${{ matrix.language }}-formatting
+
   linting:
     name: Linting
     runs-on: ${{ matrix.architecture }}
@@ -34,6 +35,7 @@ jobs:
         uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
       - name: Check linting.
         run: nix develop -c make check-${{ matrix.language }}-linting
+
   compile:
     name: Compile
     runs-on: ${{ matrix.architecture }}
@@ -47,6 +49,7 @@ jobs:
         uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
       - name: Compile.
         run: nix develop -c make compile
+
   unit-test:
     name: Unit Test
     runs-on: ${{ matrix.architecture }}
@@ -60,6 +63,7 @@ jobs:
         uses: cachix/install-nix-action@0b0e072294b088b73964f1d72dfdac0951439dbd # v31.8.4
       - name: Unit test.
         run: nix develop -c make unit-test
+
   end-to-end-test:
     name: End to End Test
     runs-on: ${{ matrix.architecture }}
