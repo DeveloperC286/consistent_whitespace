@@ -76,8 +76,8 @@ publish-crate:
 
 .PHONY: dogfood-docker
 dogfood-docker: release
-	docker build --build-arg TARGET=$(MUSL_TARGET) --tag {{ project_name }} --file Dockerfile .
-	docker run --rm --volume $(PWD):/workspace --workdir /workspace --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true --verbose {{ project_name }}
+	docker build --build-arg TARGET=$(MUSL_TARGET) --tag consistent_whitespace --file Dockerfile .
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true consistent_whitespace
 
 .PHONY: publish-docker
 publish-docker:
