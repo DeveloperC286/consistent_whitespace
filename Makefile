@@ -1,9 +1,3 @@
-DOCKER_RUN_OPTS := --rm -v $(PWD):/workspace -w /workspace
-
-UID := $(shell id -u)
-GID := $(shell id -g)
-DOCKER_RUN_WRITE_OPTS := $(DOCKER_RUN_OPTS) -u $(UID):$(GID)
-
 # Auto-detect musl target for static binaries
 MUSL_TARGET := $(shell uname -m | sed 's/x86_64/x86_64-unknown-linux-musl/;s/arm64/aarch64-unknown-linux-musl/;s/aarch64/aarch64-unknown-linux-musl/')
 ifeq ($(filter %unknown-linux-musl,$(MUSL_TARGET)),)
@@ -82,8 +76,8 @@ publish-crate:
 
 .PHONY: dogfood-docker
 dogfood-docker: release
-	docker build --build-arg TARGET=$(MUSL_TARGET) -t consistent-whitespace -f Dockerfile .
-	docker run $(DOCKER_RUN_WRITE_OPTS) consistent-whitespace
+	docker build --build-arg TARGET=$(MUSL_TARGET) --tag {{ project_name }} --file Dockerfile .
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true --verbose {{ project_name }}
 
 .PHONY: publish-docker
 publish-docker:
