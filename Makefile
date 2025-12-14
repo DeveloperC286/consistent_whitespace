@@ -1,7 +1,7 @@
-# Auto-detect musl target for static binaries
-MUSL_TARGET := $(shell uname -m | sed 's/x86_64/x86_64-unknown-linux-musl/;s/arm64/aarch64-unknown-linux-musl/;s/aarch64/aarch64-unknown-linux-musl/')
+# Auto-detect musl target for static binaries (Linux only)
+MUSL_TARGET := $(shell uname -m | sed 's/^x86_64$$/x86_64-unknown-linux-musl/;s/^aarch64$$/aarch64-unknown-linux-musl/')
 ifeq ($(filter %unknown-linux-musl,$(MUSL_TARGET)),)
-    $(error Unsupported architecture: $(shell uname -m). Only x86_64, arm64, and aarch64 are supported)
+    $(error Unsupported architecture: $(shell uname -m). Static musl builds only supported on Linux x86_64 and aarch64)
 endif
 
 # Use --locked in CI to ensure reproducible builds
