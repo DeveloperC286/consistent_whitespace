@@ -79,6 +79,10 @@ dogfood-docker: release
 	docker build --build-arg TARGET=$(MUSL_TARGET) --tag consistent_whitespace --file Dockerfile .
 	docker run --rm --volume $(PWD):/workspace --workdir /workspace --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true consistent_whitespace
 
-.PHONY: publish-docker
-publish-docker:
-	./ci/publish-docker.sh ${RELEASE}
+.PHONY: publish-docker-image
+publish-docker-image:
+	./ci/publish-docker-image.sh ${RELEASE} ${PLATFORM} ${TARGET} ${SUFFIX}
+
+.PHONY: publish-docker-manifest
+publish-docker-manifest:
+	./ci/publish-docker-manifest.sh ${RELEASE}
