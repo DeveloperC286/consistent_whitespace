@@ -82,10 +82,13 @@ publish-binary: release
 publish-crate:
 	cargo publish --verbose
 
+# Emulate GitHub Actions CI environment for testing
+GITHUB_ACTIONS_ENV := --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true
+
 .PHONY: dogfood-docker
 dogfood-docker: release
 	docker build --build-arg TARGET=$(MUSL_TARGET) --tag consistent_whitespace --file Dockerfile .
-	docker run --rm --volume $(PWD):/workspace --workdir /workspace --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI=true consistent_whitespace
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose
 
 .PHONY: publish-docker-image
 publish-docker-image:

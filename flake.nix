@@ -50,7 +50,6 @@
             pkgs.python313
             pkgs.python313Packages.autopep8
             pkgs.python313Packages.behave
-            pkgs.git
             # Deploying.
             pkgs.gh
           ];
