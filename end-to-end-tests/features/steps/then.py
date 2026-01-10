@@ -1,7 +1,12 @@
 from behave import then
 
 from utilities import execute_consistent_whitespace
-from assertions import *
+from assertions import (
+    assert_command_successful,
+    assert_command_unsuccessful,
+    assert_no_errors,
+    assert_no_output,
+)
 
 
 @then('all files are consistent.')

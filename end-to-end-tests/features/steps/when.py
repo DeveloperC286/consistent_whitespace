@@ -11,7 +11,7 @@ def file_copied_into_directory(context, filename):
 
 
 @when('"{filename}" is copied to "{path}".')
-def file_copied_into_directory(context, filename, path):
+def file_copied_to_path(context, filename, path):
     source_path = context.behave_directory + f"/examples/{filename}"
     destination_path = context.execution_directory + f"/{path}"
     os.makedirs(os.path.dirname(destination_path), exist_ok=True)
