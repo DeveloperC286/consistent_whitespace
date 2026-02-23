@@ -54,7 +54,7 @@ jobs:
       - name: Checkout code.
         uses: actions/checkout@v4
       - name: Check whitespace consistency.
-        uses: docker://ghcr.io/developerc286/consistent_whitespace:0.7.3
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:0.7.4
         with:
           args: .
 ```
@@ -64,7 +64,7 @@ jobs:
 <!-- x-release-please-start-version -->
 ```yaml
 check-whitespace:
-  image: ghcr.io/developerc286/consistent_whitespace:0.7.3
+  image: ghcr.io/developerc286/consistent_whitespace:0.7.4
   script:
     - consistent_whitespace .
   rules:
@@ -76,14 +76,14 @@ check-whitespace:
 ### Binary
 <!-- x-release-please-start-version -->
 ```sh
-version="v0.7.3" && wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+version="v0.7.4" && wget -O - "https://github.com/DeveloperC286/consistent_whitespace/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
 ```
 <!-- x-release-please-end -->
 
 ### Cargo
 <!-- x-release-please-start-version -->
 ```bash
-cargo install consistent_whitespace@0.7.3
+cargo install consistent_whitespace@0.7.4
 ```
 <!-- x-release-please-end -->
 
@@ -92,7 +92,7 @@ You can use the Docker image published to [ghcr.io/developerc286/consistent_whit
 
 <!-- x-release-please-start-version -->
 ```bash
-docker run --rm -v $(pwd):/workspace -w /workspace ghcr.io/developerc286/consistent_whitespace:0.7.3 .
+docker run --rm -v $(pwd):/workspace -w /workspace ghcr.io/developerc286/consistent_whitespace:0.7.4 .
 ```
 <!-- x-release-please-end -->
 
