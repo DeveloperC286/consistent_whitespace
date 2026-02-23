@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.7.4 (2026-02-23)
+
+## What's Changed
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/375
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.3 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/374
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.4 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/377
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/378
+* chore(deps): update dependency https://github.com/developerc286/template to v1.7.2 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/379
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/380
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/381
+* chore(deps): update rust crate clap to v4.5.55 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/382
+* chore(deps): update alpine docker tag to v3.23.3 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/383
+* chore(deps): update rust crate clap to v4.5.56 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/384
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/385
+* chore(deps): update rust crate clap to v4.5.57 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/386
+* chore(deps): update rust crate anyhow to v1.0.101 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/387
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/388
+* chore(deps): update rust crate clap to v4.5.58 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/389
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/390
+* chore(deps): update rust crate clap to v4.5.59 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/391
+* chore(deps): update rust crate clap to v4.5.60 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/392
+* chore(deps): update rust crate anyhow to v1.0.102 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/393
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/394
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.7.3...v0.7.4
+
 ## 0.7.3 (2026-01-03)
 
 ## What's Changed
