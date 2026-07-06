@@ -5,7 +5,9 @@
   ],
   "automerge": true,
   "github-actions": {
-    "enabled": false
+    "managerFilePatterns": [
+      "/(^|/)dogfood-github-actions\\.yml$/"
+    ]
   },
   "nix": {
     "enabled": true,
