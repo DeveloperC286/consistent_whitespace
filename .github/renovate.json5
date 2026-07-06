@@ -5,9 +5,7 @@
   ],
   "automerge": true,
   "github-actions": {
-    "managerFilePatterns": [
-      "/(^|/)dogfood-github-actions\\.yml$/"
-    ]
+    "enabled": false
   },
   "nix": {
     "enabled": true,
@@ -18,6 +16,18 @@
     }
   },
   "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)dogfood-github-actions\\.yml$/"
+      ],
+      "matchStrings": [
+        "docker://ghcr\\.io/developerc286/consistent_whitespace:(?<currentValue>v[\\d.]+)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "DeveloperC286/consistent_whitespace",
+      "versioningTemplate": "semver"
+    },
     {
       "customType": "regex",
       "managerFilePatterns": [
