@@ -12,7 +12,19 @@ jobs:
     steps:
       - name: Checkout code.
         uses: actions/checkout@v4
-      - name: Check whitespace consistency.
+      - name: Check Rust whitespace consistency.
         uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
         with:
-          args: .
+          args: src/ Cargo.toml
+      - name: Check Python whitespace consistency.
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
+        with:
+          args: end-to-end-tests/features/
+      - name: Check shell whitespace consistency.
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
+        with:
+          args: ci/
+      - name: Check Dockerfile whitespace consistency.
+        uses: docker://ghcr.io/developerc286/consistent_whitespace:v0.6.0
+        with:
+          args: Dockerfile
