@@ -39,22 +39,16 @@ pub fn evaluate_file(
 ) -> Option<ConsistentWhitespaceError> {
     let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
-    let spaces = lines
+    let (spaces, tabs, mixed) = lines
         .iter()
-        .filter(|&line| line.format == Format::Spaces)
-        .count();
-    let tabs = lines
-        .iter()
-        .filter(|&line| line.format == Format::Tabs)
-        .count();
-    let mixed = lines
-        .iter()
-        .filter(|&line| line.format == Format::Mixed)
-        .count();
-    let none = lines
-        .iter()
-        .filter(|&line| line.format == Format::None)
-        .count();
+        .fold((0usize, 0usize, 0usize), |(s, t, m), line| {
+            match line.format {
+                Format::Spaces => (s + 1, t, m),
+                Format::Tabs => (s, t + 1, m),
+                Format::Mixed => (s, t, m + 1),
+                Format::None => (s, t, m),
+            }
+        });
 
     match whitespace_preference {
         WhitespacePreference::Tabs => {
@@ -76,11 +70,11 @@ pub fn evaluate_file(
         WhitespacePreference::Either => {}
     };
 
-    match (spaces, tabs, mixed, none) {
+    match (spaces, tabs, mixed) {
         // All lines are spaces or all lines are tabs - consistent
-        (_, 0, 0, _) | (0, _, 0, _) => None,
+        (_, 0, 0) | (0, _, 0) => None,
         // Mixed indentation
-        (_, _, _, _) => Some(ConsistentWhitespaceError {
+        _ => Some(ConsistentWhitespaceError {
             path: file.path.clone(),
             lines,
         }),
