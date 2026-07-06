@@ -103,7 +103,10 @@ GITHUB_ACTIONS_ENV := --env HOME=/github/home --env GITHUB_ACTIONS=true --env CI
 .PHONY: dogfood-docker
 dogfood-docker: release
 	docker build --build-arg TARGET=$(MUSL_TARGET) --tag consistent_whitespace --file Dockerfile .
-	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose src/ Cargo.toml
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose end-to-end-tests/features/
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose ci/
+	docker run --rm --volume $(PWD):/workspace --workdir /workspace $(GITHUB_ACTIONS_ENV) consistent_whitespace --verbose Dockerfile
 
 .PHONY: publish-docker-image
 publish-docker-image:
