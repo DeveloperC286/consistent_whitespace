@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Check whitespace consistency.
         uses: docker://ghcr.io/developerc286/consistent_whitespace:0.7.3
         with:
