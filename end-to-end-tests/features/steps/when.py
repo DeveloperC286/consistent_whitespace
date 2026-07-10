@@ -23,6 +23,13 @@ def path_provided(context, path):
     context.arguments = f" {path} "
 
 
+@when('"{filename}" is copied into the directory as "{destination}".')
+def file_copied_into_directory_as(context, filename, destination):
+    source_path = context.behave_directory + f"/examples/{filename}"
+    destination_path = context.execution_directory + f"/{destination}"
+    shutil.copy2(source_path, destination_path)
+
+
 @when('the whitespace "{whitespace}" is provided.')
 def whitespace_provided(context, whitespace):
     context.arguments = f" --whitespace {whitespace} "

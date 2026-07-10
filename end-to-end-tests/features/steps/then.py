@@ -27,3 +27,23 @@ def assert_all_files_inconsistent(context):
 
     # Then
     assert_command_unsuccessful(result)
+
+
+@then('all files are consistent across the codebase.')
+def assert_all_files_consistent_across_codebase(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_no_output(result)
+    assert_no_errors(result)
+    assert_command_successful(result)
+
+
+@then('all files are inconsistent across the codebase.')
+def assert_all_files_inconsistent_across_codebase(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_command_unsuccessful(result)

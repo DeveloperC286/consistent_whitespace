@@ -48,7 +48,6 @@ fn evaluate_across_files(
     files: Files,
     whitespace_preference: &WhitespacePreference,
 ) -> Option<ConsistentWhitespaceErrors> {
-    // First, check if all files use the same whitespace type
     let mut file_formats: Vec<(PathBuf, Format)> = Vec::new();
 
     for file in &files {
@@ -62,13 +61,26 @@ fn evaluate_across_files(
         return None;
     }
 
-    let first_format = file_formats[0].1.clone();
+    // Determine the expected format based on the whitespace preference.
+    // For Either, use the first non-mixed format seen; Mixed files are always errors.
+    let expected_format: Option<Format> = match whitespace_preference {
+        WhitespacePreference::Tabs => Some(Format::Tabs),
+        WhitespacePreference::Spaces => Some(Format::Spaces),
+        WhitespacePreference::Either => file_formats
+            .iter()
+            .find(|(_, f)| *f != Format::Mixed)
+            .map(|(_, f)| f.clone()),
+    };
 
     let inconsistent_files: Vec<ConsistentWhitespaceError> = file_formats
         .into_iter()
         .filter_map(|(path, format)| {
-            if format != first_format {
-                // Create an error for this file
+            let is_inconsistent = format == Format::Mixed
+                || expected_format
+                    .as_ref()
+                    .map_or(false, |expected| &format != expected);
+
+            if is_inconsistent {
                 let file = files.iter().find(|f| f.path == path).unwrap();
                 let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
                 Some(ConsistentWhitespaceError { path, lines })
