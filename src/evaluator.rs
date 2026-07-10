@@ -78,7 +78,7 @@ fn evaluate_across_files(
             let is_inconsistent = format == Format::Mixed
                 || expected_format
                     .as_ref()
-                    .map_or(false, |expected| &format != expected);
+                    .is_some_and(|expected| &format != expected);
 
             if is_inconsistent {
                 let file = files.iter().find(|f| f.path == path).unwrap();
