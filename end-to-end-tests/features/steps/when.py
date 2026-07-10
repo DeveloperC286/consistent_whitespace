@@ -4,12 +4,6 @@ import os
 from behave import when
 
 
-@when('"{filename}" is copied into the directory.')
-def file_copied_into_directory(context, filename):
-    shutil.copy2(context.behave_directory +
-                 f"/examples/{filename}", context.execution_directory)
-
-
 @when('"{filename}" is copied to "{path}".')
 def file_copied_to_path(context, filename, path):
     source_path = context.behave_directory + f"/examples/{filename}"
@@ -21,13 +15,6 @@ def file_copied_to_path(context, filename, path):
 @when('the path "{path}" is provided.')
 def path_provided(context, path):
     context.arguments = f" {path} "
-
-
-@when('"{filename}" is copied into the directory as "{destination}".')
-def file_copied_into_directory_as(context, filename, destination):
-    source_path = context.behave_directory + f"/examples/{filename}"
-    destination_path = context.execution_directory + f"/{destination}"
-    shutil.copy2(source_path, destination_path)
 
 
 @when('the whitespace "{whitespace}" is provided.')
