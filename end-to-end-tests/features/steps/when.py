@@ -4,12 +4,6 @@ import os
 from behave import when
 
 
-@when('"{filename}" is copied into the directory.')
-def file_copied_into_directory(context, filename):
-    shutil.copy2(context.behave_directory +
-                 f"/examples/{filename}", context.execution_directory)
-
-
 @when('"{filename}" is copied to "{path}".')
 def file_copied_to_path(context, filename, path):
     source_path = context.behave_directory + f"/examples/{filename}"
