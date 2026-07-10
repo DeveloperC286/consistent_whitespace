@@ -40,7 +40,7 @@ def assert_all_files_consistent_across_codebase(context):
     assert_command_successful(result)
 
 
-@then('all files are inconsistent across the codebase.')
+@then('files are inconsistent across the codebase.')
 def assert_all_files_inconsistent_across_codebase(context):
     # When
     result = execute_consistent_whitespace(context)
