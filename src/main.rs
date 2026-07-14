@@ -4,8 +4,11 @@ use log::{debug, error, info};
 
 mod evaluator;
 mod lexical_analysis;
+mod output;
 mod raw_file;
 mod reporter;
+
+use output::Output;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -41,6 +44,14 @@ struct Arguments {
     /// The mode for checking whitespace consistency.
     #[arg(long, value_enum, default_value = "across-files")]
     mode: ConsistencyMode,
+
+    #[arg(
+        long,
+        value_enum,
+        default_value = "default",
+        help = "Specifies the format for outputting results, acceptable values are quiet, default, pretty, and github. The default format auto-detects GitHub Actions via the GITHUB_ACTIONS environment variable, using github format when detected and pretty otherwise."
+    )]
+    output: Output,
 
     #[arg(
         long,
@@ -85,7 +96,9 @@ fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
     if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace, &arguments.mode) {
-        print!("{}", reporter::report(&errors, &arguments.mode));
+        if let Some(report) = reporter::report(&errors, &arguments.mode, &arguments.output) {
+            print!("{report}");
+        }
         Ok(1)
     } else {
         Ok(0)

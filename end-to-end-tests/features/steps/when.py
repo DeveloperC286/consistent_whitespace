@@ -20,3 +20,13 @@ def path_provided(context, path):
 @when('the whitespace "{whitespace}" is provided.')
 def whitespace_provided(context, whitespace):
     context.arguments = f" --whitespace {whitespace} "
+
+
+@when('the output format "{output_format}" is provided.')
+def output_format_provided(context, output_format):
+    context.arguments += f" --output {output_format} "
+
+
+@when('the GITHUB_ACTIONS environment variable is set.')
+def github_actions_environment_variable_set(context):
+    context.environment_overrides["GITHUB_ACTIONS"] = "true"

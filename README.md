@@ -35,6 +35,16 @@ consistent_whitespace --whitespace tabs
 consistent_whitespace --whitespace either
 ```
 
+### Output Format
+By default, the output format is auto-detected: the GitHub Actions workflow command format is used when the `GITHUB_ACTIONS` environment variable is set, and a human readable pretty format is used otherwise. You can override this:
+
+```bash
+consistent_whitespace --output quiet   # Print nothing, only set the exit code.
+consistent_whitespace --output default # Auto-detect based on the GITHUB_ACTIONS environment variable.
+consistent_whitespace --output pretty  # Force a human readable, colourised format.
+consistent_whitespace --output github  # Force the GitHub Actions workflow command format.
+```
+
 ## Examples
 ### GitHub Actions
 <!-- x-release-please-start-version -->

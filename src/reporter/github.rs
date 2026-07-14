@@ -3,7 +3,7 @@ use std::fmt::Write;
 use crate::ConsistencyMode;
 use crate::evaluator::{ConsistentWhitespaceError, ConsistentWhitespaceErrors, Format};
 
-pub fn report(errors: &ConsistentWhitespaceErrors, mode: &ConsistencyMode) -> String {
+pub(super) fn report(errors: &ConsistentWhitespaceErrors, mode: &ConsistencyMode) -> String {
     match mode {
         ConsistencyMode::WithinFiles => report_within_files(errors),
         ConsistencyMode::AcrossFiles => report_across_files(errors),
@@ -56,6 +56,3 @@ fn report_error(error: &ConsistentWhitespaceError, message: &str) -> String {
 
     output
 }
-
-#[cfg(test)]
-mod tests;
