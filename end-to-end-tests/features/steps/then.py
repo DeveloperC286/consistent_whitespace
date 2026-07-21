@@ -47,3 +47,36 @@ def assert_all_files_inconsistent_across_codebase(context):
 
     # Then
     assert_command_unsuccessful(result)
+
+
+@then('the output is in the GitHub Actions format.')
+def assert_output_is_github_actions_format(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_command_unsuccessful(result)
+    assert "::error" in result.stdout, "Expected standard output to contain a GitHub Actions error annotation.\n" + \
+        f"Standard output = {result.stdout.encode()}.\n"
+
+
+@then('the output is pretty.')
+def assert_output_is_pretty(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_command_unsuccessful(result)
+    assert result.stdout != "", "Expected standard output to be non-empty.\n"
+    assert "::error" not in result.stdout, "Expected standard output to not contain a GitHub Actions error annotation.\n" + \
+        f"Standard output = {result.stdout.encode()}.\n"
+
+
+@then('the output is empty.')
+def assert_output_is_empty(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_command_unsuccessful(result)
+    assert_no_output(result)

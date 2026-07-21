@@ -7,8 +7,11 @@ use clap::Parser;
 
 mod evaluator;
 mod lexical_analysis;
+mod output;
 mod raw_file;
 mod reporter;
+
+use output::Output;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -47,6 +50,14 @@ struct Arguments {
 
     #[arg(
         long,
+        value_enum,
+        default_value = "default",
+        help = "Specifies the format for outputting results, acceptable values are quiet, default, pretty, and github. The default format auto-detects GitHub Actions via the GITHUB_ACTIONS environment variable, using github format when detected and pretty otherwise."
+    )]
+    output: Output,
+
+    #[arg(
+        long,
         help = "Enable verbose output, respects RUST_LOG environment variable if set."
     )]
     verbose: bool,
@@ -80,7 +91,7 @@ fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
     if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace, &arguments.mode) {
-        reporter::report(&errors, &arguments.mode);
+        reporter::report(&errors, &arguments.mode, &arguments.output);
         Ok(1)
     } else {
         Ok(0)
