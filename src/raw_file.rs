@@ -2,7 +2,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use ignore::Walk;
-use log::debug;
+use log::{debug, warn};
 
 pub type RawLines = Vec<RawLine>;
 pub type RawFiles = Vec<RawFile>;
@@ -49,17 +49,27 @@ fn get_file_paths(search: &Path) -> Result<Vec<PathBuf>> {
 }
 
 fn get_raw_files_from_paths(paths: Vec<PathBuf>) -> Result<RawFiles> {
-    let mut files = Vec::new();
-    for path in paths {
-        files.push(get_raw_file(&path)?);
-    }
-    Ok(files)
+    paths
+        .iter()
+        .filter_map(|path| get_raw_file(path).transpose())
+        .collect()
 }
 
-fn get_raw_file(path: &Path) -> Result<RawFile> {
+fn get_raw_file(path: &Path) -> Result<Option<RawFile>> {
     debug!("Reading in the file {}.", path.display());
-    let lines = std::fs::read_to_string(path)
-        .context(format!("Failed to read the file {}", path.display()))?
+    let bytes =
+        std::fs::read(path).context(format!("Failed to read the file {}", path.display()))?;
+    let content = match String::from_utf8(bytes) {
+        Ok(content) => content,
+        Err(_) => {
+            warn!(
+                "Skipping the file {} as it is not valid UTF-8.",
+                path.display()
+            );
+            return Ok(None);
+        }
+    };
+    let lines = content
         .lines()
         .enumerate()
         .map(|(line_number, line)| RawLine {
@@ -67,8 +77,8 @@ fn get_raw_file(path: &Path) -> Result<RawFile> {
             line_number: line_number + 1,
         })
         .collect();
-    Ok(RawFile {
+    Ok(Some(RawFile {
         path: path.to_path_buf(),
         lines,
-    })
+    }))
 }
