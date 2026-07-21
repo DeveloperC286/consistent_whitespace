@@ -102,18 +102,7 @@ fn evaluate_across_files(
 fn get_file_format(file: &File, whitespace_preference: &WhitespacePreference) -> Option<Format> {
     let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
-    let spaces = lines
-        .iter()
-        .filter(|&line| line.format == Format::Spaces)
-        .count();
-    let tabs = lines
-        .iter()
-        .filter(|&line| line.format == Format::Tabs)
-        .count();
-    let mixed = lines
-        .iter()
-        .filter(|&line| line.format == Format::Mixed)
-        .count();
+    let (spaces, tabs, mixed) = count_formats(&lines);
 
     // If file has mixed indentation, it's inconsistent regardless of preference
     if mixed > 0 {
@@ -159,16 +148,7 @@ pub fn evaluate_file(
 ) -> Option<ConsistentWhitespaceError> {
     let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
-    let (spaces, tabs, mixed) = lines
-        .iter()
-        .fold((0usize, 0usize, 0usize), |(s, t, m), line| {
-            match line.format {
-                Format::Spaces => (s + 1, t, m),
-                Format::Tabs => (s, t + 1, m),
-                Format::Mixed => (s, t, m + 1),
-                Format::None => (s, t, m),
-            }
-        });
+    let (spaces, tabs, mixed) = count_formats(&lines);
 
     match whitespace_preference {
         WhitespacePreference::Tabs => {
@@ -207,6 +187,21 @@ pub enum Format {
     Tabs,
     Mixed,
     None,
+}
+
+/// Counts how many lines fall into each indentation format, returning
+/// `(spaces, tabs, mixed)`. Lines with `Format::None` are ignored.
+fn count_formats(lines: &[LineState]) -> (usize, usize, usize) {
+    lines
+        .iter()
+        .fold((0usize, 0usize, 0usize), |(s, t, m), line| {
+            match line.format {
+                Format::Spaces => (s + 1, t, m),
+                Format::Tabs => (s, t + 1, m),
+                Format::Mixed => (s, t, m + 1),
+                Format::None => (s, t, m),
+            }
+        })
 }
 
 pub fn evaluate_line(line: &Line) -> LineState {
