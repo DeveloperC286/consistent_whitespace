@@ -48,16 +48,16 @@ fn evaluate_across_files(
     files: Files,
     whitespace_preference: &WhitespacePreference,
 ) -> Option<ConsistentWhitespaceErrors> {
-    let mut file_formats: Vec<(PathBuf, Format)> = Vec::new();
+    let mut classified_files: Vec<(PathBuf, Format, Vec<LineState>)> = Vec::new();
 
     for file in &files {
-        let file_format = get_file_format(file, whitespace_preference);
-        if let Some(format) = file_format {
-            file_formats.push((file.path.clone(), format));
+        let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
+        if let Some(format) = classify_lines(&lines, whitespace_preference) {
+            classified_files.push((file.path.clone(), format, lines));
         }
     }
 
-    if file_formats.is_empty() {
+    if classified_files.is_empty() {
         return None;
     }
 
@@ -66,23 +66,16 @@ fn evaluate_across_files(
     let expected_format: Option<Format> = match whitespace_preference {
         WhitespacePreference::Tabs => Some(Format::Tabs),
         WhitespacePreference::Spaces => Some(Format::Spaces),
-        WhitespacePreference::Either => file_formats
+        WhitespacePreference::Either => classified_files
             .iter()
-            .find(|(_, f)| *f != Format::Mixed)
-            .map(|(_, f)| f.clone()),
+            .find(|(_, f, _)| *f != Format::Mixed)
+            .map(|(_, f, _)| f.clone()),
     };
 
-    let inconsistent_files: Vec<ConsistentWhitespaceError> = file_formats
+    let inconsistent_files: Vec<ConsistentWhitespaceError> = classified_files
         .into_iter()
-        .filter_map(|(path, format)| {
-            let is_inconsistent = format == Format::Mixed
-                || expected_format
-                    .as_ref()
-                    .is_some_and(|expected| &format != expected);
-
-            if is_inconsistent {
-                let file = files.iter().find(|f| f.path == path).unwrap();
-                let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
+        .filter_map(|(path, format, lines)| {
+            if is_inconsistent(&format, expected_format.as_ref()) {
                 Some(ConsistentWhitespaceError { path, lines })
             } else {
                 None
@@ -99,21 +92,17 @@ fn evaluate_across_files(
     }
 }
 
-fn get_file_format(file: &File, whitespace_preference: &WhitespacePreference) -> Option<Format> {
-    let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
-
-    let spaces = lines
-        .iter()
-        .filter(|&line| line.format == Format::Spaces)
-        .count();
-    let tabs = lines
-        .iter()
-        .filter(|&line| line.format == Format::Tabs)
-        .count();
-    let mixed = lines
-        .iter()
-        .filter(|&line| line.format == Format::Mixed)
-        .count();
+/// Classifies a file's indentation, described by its per-line [`LineState`]s,
+/// into a single [`Format`] relative to the given whitespace preference.
+///
+/// Returns `None` when the file has no indentation to judge. `Some(Format::Mixed)`
+/// signals inconsistency: either individual lines mix spaces and tabs, or the
+/// file combines space-indented and tab-indented lines under `Either`.
+fn classify_lines(
+    lines: &[LineState],
+    whitespace_preference: &WhitespacePreference,
+) -> Option<Format> {
+    let (spaces, tabs, mixed) = count_line_formats(lines);
 
     // If file has mixed indentation, it's inconsistent regardless of preference
     if mixed > 0 {
@@ -159,7 +148,30 @@ pub fn evaluate_file(
 ) -> Option<ConsistentWhitespaceError> {
     let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
 
-    let (spaces, tabs, mixed) = lines
+    let format = classify_lines(&lines, whitespace_preference)?;
+
+    // Within a single file there is no cross-file expectation to satisfy, so
+    // only Mixed files are errors under Either; Tabs/Spaces expect that format.
+    let expected_format: Option<Format> = match whitespace_preference {
+        WhitespacePreference::Tabs => Some(Format::Tabs),
+        WhitespacePreference::Spaces => Some(Format::Spaces),
+        WhitespacePreference::Either => None,
+    };
+
+    if is_inconsistent(&format, expected_format.as_ref()) {
+        Some(ConsistentWhitespaceError {
+            path: file.path.clone(),
+            lines,
+        })
+    } else {
+        None
+    }
+}
+
+/// Counts how many lines are space-indented, tab-indented, and mixed. Lines with
+/// no indentation ([`Format::None`]) are ignored.
+fn count_line_formats(lines: &[LineState]) -> (usize, usize, usize) {
+    lines
         .iter()
         .fold((0usize, 0usize, 0usize), |(s, t, m), line| {
             match line.format {
@@ -168,37 +180,13 @@ pub fn evaluate_file(
                 Format::Mixed => (s, t, m + 1),
                 Format::None => (s, t, m),
             }
-        });
+        })
+}
 
-    match whitespace_preference {
-        WhitespacePreference::Tabs => {
-            if spaces > 0 || mixed > 0 {
-                return Some(ConsistentWhitespaceError {
-                    path: file.path.clone(),
-                    lines,
-                });
-            }
-        }
-        WhitespacePreference::Spaces => {
-            if tabs > 0 || mixed > 0 {
-                return Some(ConsistentWhitespaceError {
-                    path: file.path.clone(),
-                    lines,
-                });
-            }
-        }
-        WhitespacePreference::Either => {}
-    };
-
-    match (spaces, tabs, mixed) {
-        // All lines are spaces or all lines are tabs - consistent
-        (_, 0, 0) | (0, _, 0) => None,
-        // Mixed indentation
-        _ => Some(ConsistentWhitespaceError {
-            path: file.path.clone(),
-            lines,
-        }),
-    }
+/// A classified file is inconsistent if it mixes whitespace within itself, or if
+/// an expected format is known and the file does not match it.
+fn is_inconsistent(format: &Format, expected: Option<&Format>) -> bool {
+    *format == Format::Mixed || expected.is_some_and(|expected| format != expected)
 }
 
 #[derive(PartialEq, Debug, Clone)]
