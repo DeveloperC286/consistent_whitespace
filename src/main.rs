@@ -1,9 +1,6 @@
-#[macro_use]
-extern crate log;
-extern crate pretty_env_logger;
-
 use anyhow::Result;
 use clap::Parser;
+use log::{debug, error, info};
 
 mod evaluator;
 mod lexical_analysis;

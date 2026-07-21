@@ -2,6 +2,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use ignore::Walk;
+use log::debug;
 
 pub type RawLines = Vec<RawLine>;
 pub type RawFiles = Vec<RawFile>;
