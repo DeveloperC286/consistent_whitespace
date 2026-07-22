@@ -27,7 +27,7 @@ ignore = "0.4.23"
 
 [dev-dependencies]
 # For snapshot testing the reporter output.
-insta = "1.43.2"
+insta = "=1.48.0"
 
 [profile.release]
 lto = 'fat'
