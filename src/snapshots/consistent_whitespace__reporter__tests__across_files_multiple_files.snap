@@ -1,0 +1,14 @@
+---
+source: src/reporter.rs
+expression: "report(&errors, &ConsistencyMode::AcrossFiles)"
+---
+::group::src/tabs.txt
+::error file=src/tabs.txt::Uses different whitespace than other files
+::error file=src/tabs.txt,line=1::Tabs
+::error file=src/tabs.txt,line=2::Tabs
+::endgroup::
+::group::src/mixed.txt
+::error file=src/mixed.txt::Uses different whitespace than other files
+::error file=src/mixed.txt,line=1::Spaces
+::error file=src/mixed.txt,line=2::Mixed
+::endgroup::
