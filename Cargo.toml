@@ -25,6 +25,10 @@ anyhow = "1.0.86"
 # For handling .gitignore
 ignore = "0.4.23"
 
+[dev-dependencies]
+# For snapshot testing the reporter output.
+insta = "1.43.2"
+
 [profile.release]
 lto = 'fat'
 codegen-units = 1

@@ -1,0 +1,10 @@
+---
+source: src/reporter.rs
+expression: "report(&errors, &ConsistencyMode::WithinFiles)"
+---
+::group::src/main.rs
+::error file=src/main.rs::Inconsistent Formatting
+::error file=src/main.rs,line=1::None
+::error file=src/main.rs,line=2::Spaces
+::error file=src/main.rs,line=3::Tabs
+::endgroup::

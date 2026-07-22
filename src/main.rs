@@ -85,7 +85,7 @@ fn run(arguments: Arguments) -> Result<i32> {
     let raw_files = raw_file::get_raw_files(&arguments.paths)?;
     let files = lexical_analysis::parse(raw_files);
     if let Some(errors) = evaluator::evaluate(files, &arguments.whitespace, &arguments.mode) {
-        reporter::report(&errors, &arguments.mode);
+        print!("{}", reporter::report(&errors, &arguments.mode));
         Ok(1)
     } else {
         Ok(0)

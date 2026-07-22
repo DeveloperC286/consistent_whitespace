@@ -1,51 +1,61 @@
-use crate::evaluator::{ConsistentWhitespaceErrors, Format};
+use std::fmt::Write;
+
+use crate::evaluator::{ConsistentWhitespaceError, ConsistentWhitespaceErrors, Format};
 use crate::ConsistencyMode;
 
-pub fn report(errors: &ConsistentWhitespaceErrors, mode: &ConsistencyMode) {
+pub fn report(errors: &ConsistentWhitespaceErrors, mode: &ConsistencyMode) -> String {
     match mode {
         ConsistencyMode::WithinFiles => report_within_files(errors),
         ConsistencyMode::AcrossFiles => report_across_files(errors),
     }
 }
 
-fn report_within_files(errors: &ConsistentWhitespaceErrors) {
-    for error in &errors.errors {
-        println!("::group::{}", error.path.display());
-
-        // https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-error-message
-        println!(
-            "::error file={}::Inconsistent Formatting",
-            error.path.display()
-        );
-
-        for line in &error.lines {
-            let format = match line.format {
-                Format::Spaces => "Spaces",
-                Format::Tabs => "Tabs",
-                Format::Mixed => "Mixed",
-                Format::None => "None",
-            };
-
-            println!(
-                "::error file={},line={}::{}",
-                error.path.display(),
-                line.line_number,
-                format
-            );
-        }
-
-        println!("::endgroup::");
-    }
+fn report_within_files(errors: &ConsistentWhitespaceErrors) -> String {
+    errors
+        .errors
+        .iter()
+        .map(|error| report_error(error, "Inconsistent Formatting"))
+        .collect()
 }
 
-fn report_across_files(errors: &ConsistentWhitespaceErrors) {
-    println!("Files have inconsistent whitespace across the codebase:");
-    for error in &errors.errors {
-        println!(
-            "  {}: Uses different whitespace than other files",
-            error.path.display()
-        );
-    }
-    println!();
-    println!("All files must use the same whitespace type (spaces or tabs) for consistency.");
+fn report_across_files(errors: &ConsistentWhitespaceErrors) -> String {
+    errors
+        .errors
+        .iter()
+        .map(|error| report_error(error, "Uses different whitespace than other files"))
+        .collect()
 }
+
+fn report_error(error: &ConsistentWhitespaceError, message: &str) -> String {
+    let mut output = String::new();
+
+    writeln!(output, "::group::{}", error.path.display()).unwrap();
+
+    // https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-error-message
+    writeln!(output, "::error file={}::{}", error.path.display(), message).unwrap();
+
+    for line in &error.lines {
+        let format = match line.format {
+            Format::Spaces => "Spaces",
+            Format::Tabs => "Tabs",
+            Format::Mixed => "Mixed",
+            Format::None => "None",
+        };
+
+        writeln!(
+            output,
+            "::error file={},line={}::{}",
+            error.path.display(),
+            line.line_number,
+            format
+        )
+        .unwrap();
+    }
+
+    writeln!(output, "::endgroup::").unwrap();
+
+    output
+}
+
+#[cfg(test)]
+mod tests;
