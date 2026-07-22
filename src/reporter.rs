@@ -86,11 +86,7 @@ mod tests {
     fn within_files_mixed_file() {
         let errors = build_errors(&[(
             "src/main.rs",
-            &[
-                (1, Format::None),
-                (2, Format::Spaces),
-                (3, Format::Tabs),
-            ],
+            &[(1, Format::None), (2, Format::Spaces), (3, Format::Tabs)],
         )]);
 
         insta::assert_snapshot!(report(&errors, &ConsistencyMode::WithinFiles));
@@ -109,14 +105,8 @@ mod tests {
     #[test]
     fn across_files_multiple_files() {
         let errors = build_errors(&[
-            (
-                "src/tabs.txt",
-                &[(1, Format::Tabs), (2, Format::Tabs)],
-            ),
-            (
-                "src/mixed.txt",
-                &[(1, Format::Spaces), (2, Format::Mixed)],
-            ),
+            ("src/tabs.txt", &[(1, Format::Tabs), (2, Format::Tabs)]),
+            ("src/mixed.txt", &[(1, Format::Spaces), (2, Format::Mixed)]),
         ]);
 
         insta::assert_snapshot!(report(&errors, &ConsistencyMode::AcrossFiles));
