@@ -23,30 +23,45 @@ fn build_errors(files: &[(&str, &[(usize, Format)])]) -> ConsistentWhitespaceErr
 
 #[test]
 fn within_files_mixed_file() {
+    // Given
     let errors = build_errors(&[(
         "src/main.rs",
         &[(1, Format::None), (2, Format::Spaces), (3, Format::Tabs)],
     )]);
 
-    insta::assert_snapshot!(report(&errors, &ConsistencyMode::WithinFiles));
+    // When
+    let output = report(&errors, &ConsistencyMode::WithinFiles);
+
+    // Then
+    insta::assert_snapshot!(output);
 }
 
 #[test]
 fn across_files_single_file() {
+    // Given
     let errors = build_errors(&[(
         "src/tabs.txt",
         &[(1, Format::None), (2, Format::Tabs), (3, Format::Tabs)],
     )]);
 
-    insta::assert_snapshot!(report(&errors, &ConsistencyMode::AcrossFiles));
+    // When
+    let output = report(&errors, &ConsistencyMode::AcrossFiles);
+
+    // Then
+    insta::assert_snapshot!(output);
 }
 
 #[test]
 fn across_files_multiple_files() {
+    // Given
     let errors = build_errors(&[
         ("src/tabs.txt", &[(1, Format::Tabs), (2, Format::Tabs)]),
         ("src/mixed.txt", &[(1, Format::Spaces), (2, Format::Mixed)]),
     ]);
 
-    insta::assert_snapshot!(report(&errors, &ConsistencyMode::AcrossFiles));
+    // When
+    let output = report(&errors, &ConsistencyMode::AcrossFiles);
+
+    // Then
+    insta::assert_snapshot!(output);
 }
