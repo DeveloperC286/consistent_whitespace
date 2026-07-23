@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
-use crate::evaluator::{ConsistentWhitespaceError, ConsistentWhitespaceErrors, Format};
 use crate::ConsistencyMode;
+use crate::evaluator::{ConsistentWhitespaceError, ConsistentWhitespaceErrors, Format};
 
 pub fn report(errors: &ConsistentWhitespaceErrors, mode: &ConsistencyMode) -> String {
     match mode {
