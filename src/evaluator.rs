@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::path::PathBuf;
 
 use crate::lexical_analysis::{File, Files, Line, Token};
@@ -62,14 +63,12 @@ fn evaluate_across_files(
     }
 
     // Determine the expected format based on the whitespace preference.
-    // For Either, use the first non-mixed format seen; Mixed files are always errors.
+    // For Either, use the format used by the majority of files; on a tie there is no expected
+    // format and every file is inconsistent. Mixed files are always errors.
     let expected_format: Option<Format> = match whitespace_preference {
         WhitespacePreference::Tabs => Some(Format::Tabs),
         WhitespacePreference::Spaces => Some(Format::Spaces),
-        WhitespacePreference::Either => file_formats
-            .iter()
-            .find(|(_, f)| *f != Format::Mixed)
-            .map(|(_, f)| f.clone()),
+        WhitespacePreference::Either => get_majority_format(&file_formats),
     };
 
     let inconsistent_files: Vec<ConsistentWhitespaceError> = file_formats
@@ -78,7 +77,7 @@ fn evaluate_across_files(
             let is_inconsistent = format == Format::Mixed
                 || expected_format
                     .as_ref()
-                    .is_some_and(|expected| &format != expected);
+                    .is_none_or(|expected| &format != expected);
 
             if is_inconsistent {
                 let lines: Vec<LineState> = file.lines.iter().map(evaluate_line).collect();
@@ -98,6 +97,23 @@ fn evaluate_across_files(
         Some(ConsistentWhitespaceErrors {
             errors: inconsistent_files,
         })
+    }
+}
+
+fn get_majority_format(file_formats: &[(&File, Format)]) -> Option<Format> {
+    let tabs = file_formats
+        .iter()
+        .filter(|(_, format)| *format == Format::Tabs)
+        .count();
+    let spaces = file_formats
+        .iter()
+        .filter(|(_, format)| *format == Format::Spaces)
+        .count();
+
+    match tabs.cmp(&spaces) {
+        Ordering::Greater => Some(Format::Tabs),
+        Ordering::Less => Some(Format::Spaces),
+        Ordering::Equal => None,
     }
 }
 
