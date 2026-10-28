@@ -20,3 +20,13 @@ def path_provided(context, path):
 @when('the whitespace "{whitespace}" is provided.')
 def whitespace_provided(context, whitespace):
     context.arguments = f" --whitespace {whitespace} "
+
+
+@when('the argument {argument} is provided as "{value}".')
+def argument_provided_as(context, argument, value):
+    context.arguments += f" {argument} {value} "
+
+
+@when('the GITHUB_ACTIONS environment variable is set.')
+def github_actions_environment_variable_set(context):
+    context.environment_overrides["GITHUB_ACTIONS"] = "true"

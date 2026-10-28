@@ -1,7 +1,8 @@
 use std::path::PathBuf;
 
-use super::*;
-use crate::evaluator::LineState;
+use super::github::report;
+use crate::ConsistencyMode;
+use crate::evaluator::{ConsistentWhitespaceError, ConsistentWhitespaceErrors, Format, LineState};
 
 fn build_errors(files: &[(&str, &[(usize, Format)])]) -> ConsistentWhitespaceErrors {
     let errors = files

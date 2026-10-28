@@ -9,4 +9,10 @@ def empty_directory(context):
     context.behave_directory = os.getcwd()
     context.execution_directory = tempfile.mkdtemp()
     context.arguments = ""
+    context.environment_overrides = {}
     context.consistent_whitespace_path = f"{context.behave_directory}/../target/debug/consistent_whitespace" # fmt: off
+
+
+@given('the arguments are reset.')
+def arguments_reset(context):
+    context.arguments = ""
