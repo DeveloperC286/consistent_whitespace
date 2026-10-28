@@ -1,4 +1,5 @@
 import os
+import re
 from subprocess import PIPE, Popen
 
 # Environment variables which change consistent_whitespace's behaviour, they are scrubbed from the inherited environment
@@ -39,3 +40,16 @@ def execute_consistent_whitespace(context):
         cwd=context.execution_directory,
         environment_overrides=context.environment_overrides,
         stdin=getattr(context, "stdin", ""))
+
+
+def get_inconsistent_files(context):
+    result = execute_command(
+        f"{context.consistent_whitespace_path} {context.arguments} --output github",
+        cwd=context.execution_directory,
+        environment_overrides=context.environment_overrides,
+        stdin=getattr(context, "stdin", ""))
+
+    assert result.exit_code != 0, "Expected a non-zero exit code to indicate a unsuccessful execution\n" + \
+        f"Exit code = '{result.exit_code}'.\n"
+
+    return {os.path.normpath(path) for path in re.findall(r"^::error file=([^,]+?)::", result.stdout, re.MULTILINE)}
