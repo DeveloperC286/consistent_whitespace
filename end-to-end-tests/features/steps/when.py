@@ -22,9 +22,9 @@ def whitespace_provided(context, whitespace):
     context.arguments = f" --whitespace {whitespace} "
 
 
-@when('the output format "{output_format}" is provided.')
-def output_format_provided(context, output_format):
-    context.arguments += f" --output {output_format} "
+@when('the argument {argument} is provided as "{value}".')
+def argument_provided_as(context, argument, value):
+    context.arguments += f" {argument} {value} "
 
 
 @when('the GITHUB_ACTIONS environment variable is set.')

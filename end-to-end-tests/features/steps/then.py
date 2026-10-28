@@ -48,8 +48,8 @@ def assert_all_files_inconsistent_across_codebase(context):
     assert_command_unsuccessful(result)
 
 
-@then('the output is in the GitHub Actions format.')
-def assert_output_is_github_actions_format(context):
+@then('the output is in the github format.')
+def assert_output_is_github_format(context):
     # When
     result = execute_consistent_whitespace(context)
 
@@ -59,8 +59,8 @@ def assert_output_is_github_actions_format(context):
         f"Standard output = {result.stdout.encode()}.\n"
 
 
-@then('the output is pretty.')
-def assert_output_is_pretty(context):
+@then('the output is in the pretty format.')
+def assert_output_is_pretty_format(context):
     # When
     result = execute_consistent_whitespace(context)
 
@@ -71,8 +71,8 @@ def assert_output_is_pretty(context):
         f"Standard output = {result.stdout.encode()}.\n"
 
 
-@then('the output is empty.')
-def assert_output_is_empty(context):
+@then('the output is in the quiet format.')
+def assert_output_is_quiet_format(context):
     # When
     result = execute_consistent_whitespace(context)
 

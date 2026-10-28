@@ -5,10 +5,10 @@ Feature: The default output format is automatically detected based on the enviro
     Given an empty directory.
     When "mixed-within-line-indented.txt" is copied to "file.txt".
     And the GITHUB_ACTIONS environment variable is set.
-    Then the output is in the GitHub Actions format.
+    Then the output is in the github format.
 
 
   Scenario:
     Given an empty directory.
     When "mixed-within-line-indented.txt" is copied to "file.txt".
-    Then the output is pretty.
+    Then the output is in the pretty format.
