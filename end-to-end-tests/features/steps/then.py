@@ -71,8 +71,18 @@ def assert_output_is_pretty_format(context):
         f"Standard output = {result.stdout.encode()}.\n"
 
 
-@then('the output is in the quiet format.')
-def assert_output_is_quiet_format(context):
+@then('the output is not empty.')
+def assert_output_is_not_empty(context):
+    # When
+    result = execute_consistent_whitespace(context)
+
+    # Then
+    assert_command_unsuccessful(result)
+    assert result.stdout != "", "Expected standard output to be non-empty.\n"
+
+
+@then('the output is empty.')
+def assert_output_is_empty(context):
     # When
     result = execute_consistent_whitespace(context)
 
