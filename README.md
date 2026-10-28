@@ -26,6 +26,12 @@ Check specific files or directories:
 consistent_whitespace path/to/file.txt path/to/directory/
 ```
 
+### Reading paths from standard input
+Pass `-` as a path to read newline-separated paths from standard input, it can be mixed with other paths:
+```bash
+find . -type f -name '*.go' | consistent_whitespace -
+```
+
 ### Whitespace Preferences
 By default, the tool accepts either tabs or spaces as long as they are consistent within each file. You can enforce specific whitespace types:
 

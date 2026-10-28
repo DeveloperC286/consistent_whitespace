@@ -17,6 +17,12 @@ def path_provided(context, path):
     context.arguments = f" {path} "
 
 
+@when('the paths "{paths}" are provided via standard input.')
+def paths_provided_via_standard_input(context, paths):
+    context.arguments += " - "
+    context.stdin = "\n".join(paths.split(","))
+
+
 @when('the whitespace "{whitespace}" is provided.')
 def whitespace_provided(context, whitespace):
     context.arguments = f" --whitespace {whitespace} "

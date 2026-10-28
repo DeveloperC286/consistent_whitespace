@@ -6,7 +6,7 @@ from subprocess import PIPE, Popen
 SCRUBBED_ENVIRONMENT_VARIABLES = ["GITHUB_ACTIONS", "RUST_LOG", "RUST_BACKTRACE", "RUST_LIB_BACKTRACE"]
 
 
-def execute_command(command, cwd=None, environment_overrides=None):
+def execute_command(command, cwd=None, environment_overrides=None, stdin=None):
     environment = os.environ.copy()
 
     for variable in SCRUBBED_ENVIRONMENT_VARIABLES:
@@ -22,12 +22,11 @@ def execute_command(command, cwd=None, environment_overrides=None):
         stderr=PIPE,
         cwd=cwd,
         env=environment)
-    process.wait()
+
+    stdout, stderr = process.communicate(input=(stdin or "").encode("utf-8"))
 
     result = type("Result", (), {})
     result.exit_code = process.returncode
-
-    stdout, stderr = process.communicate()
     result.stdout = stdout.decode("utf-8")
     result.stderr = stderr.decode("utf-8")
 
@@ -38,4 +37,5 @@ def execute_consistent_whitespace(context):
     return execute_command(
         f"{context.consistent_whitespace_path} {context.arguments}",
         cwd=context.execution_directory,
-        environment_overrides=context.environment_overrides)
+        environment_overrides=context.environment_overrides,
+        stdin=getattr(context, "stdin", ""))
