@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0 (2026-11-06)
+
+## What's Changed
+* feat: files via standard input by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/485
+* chore(deps): update dependency developerc286/consistent_whitespace to v0.8.0 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/487
+* fix: majority style for across-files mode by @DeveloperC286 in https://github.com/DeveloperC286/consistent_whitespace/pull/489
+* chore(deps): update rust crate log to v0.4.35 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/490
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/491
+* chore(deps): update alpine docker tag to v3.24.4 by @renovate[bot] in https://github.com/DeveloperC286/consistent_whitespace/pull/492
+
+
+**Full Changelog**: https://github.com/DeveloperC286/consistent_whitespace/compare/v0.8.0...v0.9.0
+
 ## 0.8.0 (2026-10-28)
 
 ## What's Changed
